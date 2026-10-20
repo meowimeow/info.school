@@ -90,7 +90,7 @@ select.field{appearance:auto;-webkit-appearance:menulist}
 /* ================= 학교 지도 ================= */
 .mapcard{background:var(--surface);border-radius:16px;overflow:hidden}
 .maptool{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px}
-.mapbox{overflow:auto;max-height:min(70vh,580px);overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:#dfeadb}
+.mapbox{touch-action:pan-x pan-y;overflow:auto;max-height:min(70vh,580px);overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:#dfeadb}
 .mapin{position:relative;container-type:inline-size;width:100%}
 .mapin img{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}
 .mk{position:absolute;transform:translate(-50%,-50%);font:700 max(9px,2.15cqw)/1 var(--mono);padding:.45em .62em;border-radius:999px;background:#1c2f5a;color:#fff;border:1px solid rgba(255,255,255,.9);box-shadow:0 1px 3px rgba(0,0,0,.4);white-space:nowrap}
@@ -275,7 +275,7 @@ body.lock{overflow:hidden}
   <header class="hd">
     <p class="kick">충주캠퍼스</p>
     <h1>학교 지도</h1>
-    <p class="sub">건물 번호를 누르면 그 건물 안팎의 장소가 아래에 나와요. 학교 공식 캠퍼스지도 위에 번호를 얹었어요.</p>
+    <p class="sub">건물 번호를 누르면 그 건물 안팎의 장소가 아래에 나와요. 학교 공식 캠퍼스지도 위에 번호를 얹었어요. 두 손가락으로 벌리면 확대되고, 두 번 탭해도 돼요.</p>
   </header>
   <div class="mapcard">
     <div class="maptool"><span class="note" id="mapnote">번호를 눌러 보세요</span><div class="seg" id="zoomseg" role="group" aria-label="확대"><button type="button" data-z="1" aria-pressed="true">1×</button><button type="button" data-z="1.9" aria-pressed="false">2×</button><button type="button" data-z="3" aria-pressed="false">3×</button></div></div>
@@ -955,13 +955,60 @@ function placesHtml(){
 $('#codes').addEventListener('click',e=>{const b=e.target.closest('.code');if(b)setCode(b.dataset.code)});
 $('#mapin').addEventListener('click',e=>{const b=e.target.closest('.mk');if(b)setCode(b.dataset.code)});
 $('#bsel').addEventListener('click',e=>{if(e.target.closest('#bclear'))setCode(mCode)});
+const ZMIN=1,ZMAX=4;
+function syncZoomSeg(){
+  $$('#zoomseg button').forEach(x=>x.setAttribute('aria-pressed',String(Math.abs(parseFloat(x.dataset.z)-mZoom)<0.15)));
+}
+function setZoom(z,fx,fy){
+  const box=$('#mapbox'),mp=$('#mapin');
+  z=Math.max(ZMIN,Math.min(ZMAX,z));
+  if(fx==null){fx=box.clientWidth/2;fy=box.clientHeight/2}
+  const ow=mp.offsetWidth,oh=mp.offsetHeight;
+  const px=(box.scrollLeft+fx)/ow,py=(box.scrollTop+fy)/oh;
+  mZoom=z;
+  mp.style.width=(z*100)+'%';
+  box.scrollLeft=px*mp.offsetWidth-fx;
+  box.scrollTop=py*mp.offsetHeight-fy;
+  syncZoomSeg();
+}
 $('#zoomseg').addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b)return;
-  mZoom=parseFloat(b.dataset.z);
-  $$('#zoomseg button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
-  $('#mapin').style.width=(mZoom*100)+'%';
+  setZoom(parseFloat(b.dataset.z));
   if(mCode)scrollToMarker();
 });
+(function(){
+  const box=$('#mapbox');
+  let d0=0,z0=1,pin=false;
+  const dist=t=>Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);
+  const mid=t=>{const r=box.getBoundingClientRect();return [(t[0].clientX+t[1].clientX)/2-r.left,(t[0].clientY+t[1].clientY)/2-r.top]};
+  box.addEventListener('touchstart',e=>{if(e.touches.length===2){pin=true;d0=dist(e.touches);z0=mZoom}},{passive:true});
+  box.addEventListener('touchmove',e=>{
+    if(!pin||e.touches.length!==2||!d0)return;
+    e.preventDefault();
+    const m=mid(e.touches);
+    setZoom(z0*dist(e.touches)/d0,m[0],m[1]);
+  },{passive:false});
+  box.addEventListener('touchend',e=>{if(e.touches.length<2)pin=false});
+  box.addEventListener('touchcancel',()=>{pin=false});
+  // 트랙패드 핀치(ctrl+휠)와 마우스 ctrl+휠
+  box.addEventListener('wheel',e=>{
+    if(!e.ctrlKey)return;
+    e.preventDefault();
+    const r=box.getBoundingClientRect();
+    setZoom(mZoom*Math.exp(-e.deltaY*0.01),e.clientX-r.left,e.clientY-r.top);
+  },{passive:false});
+  // 더블탭으로 확대/원래대로
+  let lt=0,lx=0,ly=0;
+  box.addEventListener('touchend',e=>{
+    if(e.changedTouches.length!==1||e.touches.length)return;
+    const t=e.changedTouches[0],n=Date.now();
+    if(n-lt<300&&Math.hypot(t.clientX-lx,t.clientY-ly)<24&&!e.target.closest('.mk')){
+      const r=box.getBoundingClientRect();
+      setZoom(mZoom>1.5?1:2.5,t.clientX-r.left,t.clientY-r.top);
+      lt=0;
+    }else{lt=n;lx=t.clientX;ly=t.clientY}
+  },{passive:true});
+})();
 $('#catbar').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;mCat=b.dataset.cat;catsHtml();placesHtml()});
 $('#mq').addEventListener('input',e=>{mQ=e.target.value;placesHtml()});
 $('#fac').innerHTML=FAC.map(f=>`<div><dt>${esc(f[0])}</dt><dd>${esc(f[1])}</dd></div>`).join('');
