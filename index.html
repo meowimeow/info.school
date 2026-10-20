@@ -1,0 +1,1258 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>교통대 길잡이</title>
+<meta name="description" content="한국교통대학교 충주캠퍼스 신입생을 위한 지도·운영시간·맛집·교통·개인 시간표">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* 구성: 애플 HIG 방식. 큰 제목, 묶음 목록, 반투명 하단 탭바. 탭마다 강조색만 달라지고 라이트/다크/자동 전환 */
+:root{--body:-apple-system,BlinkMacSystemFont,'SF Pro Text','Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',system-ui,sans-serif;--display:-apple-system,BlinkMacSystemFont,'SF Pro Display','Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',system-ui,sans-serif;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;--board-bg:#0b1220;--board-fg:#ffb81c;--board-dim:#c4902a;--bg:#f2f2f7;--surface:#ffffff;--ink:#1c1c1e;--mute:#6c6c70;--line:#c6c6c8;--fill:#e9e9ee;--warn:#b33a00;--warnsoft:#fde9df;--ok:#1f8a3b;--bar:rgba(249,249,251,.8);--accent:#1f8a3b;--onacc:#ffffff;--soft:color-mix(in srgb,#1f8a3b 16%,transparent)}
+body[data-tab="map"]{--accent:#1f8a3b;--onacc:#ffffff;--soft:color-mix(in srgb,#1f8a3b 16%,transparent)}
+body[data-tab="time"]{--accent:#5856d6;--onacc:#ffffff;--soft:color-mix(in srgb,#5856d6 16%,transparent)}
+body[data-tab="food"]{--accent:#c93400;--onacc:#ffffff;--soft:color-mix(in srgb,#c93400 16%,transparent)}
+body[data-tab="bus"]{--accent:#007aff;--onacc:#ffffff;--soft:color-mix(in srgb,#007aff 16%,transparent)}
+body[data-tab="my"]{--accent:#0b8a8f;--onacc:#ffffff;--soft:color-mix(in srgb,#0b8a8f 16%,transparent)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#000000;--surface:#1c1c1e;--ink:#f5f5f7;--mute:#98989f;--line:#38383a;--fill:#2c2c2e;--warn:#ff9f6a;--warnsoft:#3a2214;--ok:#32d74b;--bar:rgba(28,28,30,.78);--accent:#32d74b;--onacc:#00170a;--soft:color-mix(in srgb,#32d74b 16%,transparent)}:root:not([data-theme="light"]) body[data-tab="map"]{--accent:#32d74b;--onacc:#00170a;--soft:color-mix(in srgb,#32d74b 16%,transparent)}:root:not([data-theme="light"]) body[data-tab="time"]{--accent:#7d7aff;--onacc:#ffffff;--soft:color-mix(in srgb,#7d7aff 16%,transparent)}:root:not([data-theme="light"]) body[data-tab="food"]{--accent:#ff9f0a;--onacc:#1f1200;--soft:color-mix(in srgb,#ff9f0a 16%,transparent)}:root:not([data-theme="light"]) body[data-tab="bus"]{--accent:#0a84ff;--onacc:#ffffff;--soft:color-mix(in srgb,#0a84ff 16%,transparent)}:root:not([data-theme="light"]) body[data-tab="my"]{--accent:#40d0c8;--onacc:#001a19;--soft:color-mix(in srgb,#40d0c8 16%,transparent)}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#000000;--surface:#1c1c1e;--ink:#f5f5f7;--mute:#98989f;--line:#38383a;--fill:#2c2c2e;--warn:#ff9f6a;--warnsoft:#3a2214;--ok:#32d74b;--bar:rgba(28,28,30,.78);--accent:#32d74b;--onacc:#00170a;--soft:color-mix(in srgb,#32d74b 16%,transparent)}
+:root[data-theme="dark"] body[data-tab="map"]{--accent:#32d74b;--onacc:#00170a;--soft:color-mix(in srgb,#32d74b 16%,transparent)}
+:root[data-theme="dark"] body[data-tab="time"]{--accent:#7d7aff;--onacc:#ffffff;--soft:color-mix(in srgb,#7d7aff 16%,transparent)}
+:root[data-theme="dark"] body[data-tab="food"]{--accent:#ff9f0a;--onacc:#1f1200;--soft:color-mix(in srgb,#ff9f0a 16%,transparent)}
+:root[data-theme="dark"] body[data-tab="bus"]{--accent:#0a84ff;--onacc:#ffffff;--soft:color-mix(in srgb,#0a84ff 16%,transparent)}
+:root[data-theme="dark"] body[data-tab="my"]{--accent:#40d0c8;--onacc:#001a19;--soft:color-mix(in srgb,#40d0c8 16%,transparent)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--body);-webkit-font-smoothing:antialiased;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 112px;word-break:keep-all;overflow-wrap:anywhere}
+.wrap{max-width:680px;margin-inline:auto;min-width:0}
+h1,h2,h3,h4,p,ul,ol,dl,dd{margin:0}
+ul,ol{padding:0;list-style:none}
+button,input,select{font:inherit;color:inherit}
+button{background:none;border:0;padding:0;cursor:pointer;text-align:inherit;-webkit-tap-highlight-color:transparent}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+.tab[hidden]{display:none}
+
+/* ---- 상단 줄 · 테마 ---- */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding-block:12px 0;position:relative}
+.appname{font-size:13px;font-weight:600;color:var(--mute)}
+.thm{width:34px;height:34px;border-radius:50%;background:var(--surface);display:grid;place-items:center;color:var(--ink);box-shadow:0 0 0 .5px var(--line)}
+.thm svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.thmenu{position:absolute;right:0;top:48px;z-index:30;padding:6px;border-radius:14px;background:var(--surface);box-shadow:0 8px 28px rgba(0,0,0,.22),0 0 0 .5px var(--line);display:grid;gap:2px;min-width:150px}
+.thmenu[hidden]{display:none}
+.thmenu button{padding:9px 12px;border-radius:9px;font-size:15px;display:flex;justify-content:space-between;gap:16px}
+.thmenu button[aria-pressed="true"]{background:var(--soft);color:var(--accent);font-weight:600}
+
+/* ---- 큰 제목 ---- */
+.hd{padding-block:14px 8px;display:grid;gap:4px}
+.kick{font-size:13px;font-weight:600;color:var(--accent)}
+h1{font:700 34px/1.15 var(--display);letter-spacing:-.02em;text-wrap:balance}
+.sub{color:var(--mute);font-size:15px;max-width:50ch;padding-top:2px}
+h2{font:600 13px/1.4 var(--body);color:var(--mute);padding:28px 16px 8px;display:flex;align-items:baseline;gap:8px}
+h2 small{font-weight:400;font-size:13px}
+.note{font-size:13px;color:var(--mute)}
+.hint{font-size:13px;color:var(--mute);padding:8px 16px 0}
+.src{margin-top:32px;padding:0 16px;font-size:12px;color:var(--mute);line-height:1.6}
+
+/* ---- 묶음 목록 (iOS inset grouped) ---- */
+.grp{background:var(--surface);border-radius:14px;overflow:hidden}
+.grp>*{position:relative}
+.grp>*+*::before{content:"";position:absolute;left:16px;right:0;top:0;height:.5px;background:var(--line)}
+.empty{padding:22px 16px;color:var(--mute);font-size:15px}
+.count{font-size:13px;color:var(--mute);padding:10px 16px 6px}
+
+/* ---- 칩 · 입력 · 분할 컨트롤 ---- */
+.bar{display:flex;gap:8px;flex-wrap:wrap;padding-block:6px;align-items:center}
+.chip{padding:6px 14px;border-radius:999px;background:var(--surface);font-size:14px;font-weight:500;line-height:1.4;box-shadow:0 0 0 .5px var(--line)}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--onacc);box-shadow:none}
+.field{width:100%;padding:10px 12px;border:0;border-radius:10px;background:var(--fill);color:var(--ink);font-size:16px;appearance:none;-webkit-appearance:none}
+.field::placeholder{color:var(--mute)}
+select.field{appearance:auto;-webkit-appearance:menulist}
+.seg{display:inline-flex;gap:2px;padding:2px;border-radius:9px;background:var(--fill)}
+.seg button{padding:4px 12px;border-radius:7px;font-size:13px;font-weight:600;color:var(--mute);text-align:center}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.18)}
+
+/* ---- 플래그 ---- */
+.flag{display:inline-block;margin-left:6px;padding:0 8px;border-radius:999px;font:600 11px/1.7 var(--body);vertical-align:2px;color:var(--warn);background:var(--warnsoft)}
+.flag.u{color:var(--mute);background:var(--fill)}
+.fn{margin-top:8px;padding:8px 12px;border-radius:10px;font-size:13px;line-height:1.5;color:var(--warn);background:var(--warnsoft)}
+.fn.u{color:var(--mute);background:var(--fill)}
+
+/* ================= 학교 지도 ================= */
+.mapcard{background:var(--surface);border-radius:16px;overflow:hidden}
+.maptool{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px}
+.mapbox{overflow:auto;max-height:min(70vh,580px);overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:#dfeadb}
+.mapin{position:relative;container-type:inline-size;width:100%}
+.mapin img{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}
+.mk{position:absolute;transform:translate(-50%,-50%);font:700 max(9px,2.15cqw)/1 var(--mono);padding:.45em .62em;border-radius:999px;background:#1c2f5a;color:#fff;border:1px solid rgba(255,255,255,.9);box-shadow:0 1px 3px rgba(0,0,0,.4);white-space:nowrap}
+.mk[aria-pressed="true"]{background:#ff9500;color:#1a1000;z-index:3;border-color:#fff;box-shadow:0 0 0 3px rgba(255,149,0,.45),0 2px 6px rgba(0,0,0,.4)}
+.dim .mk:not([aria-pressed="true"]){opacity:.55}
+.codes{display:flex;gap:8px;overflow-x:auto;padding-block:12px 4px;scrollbar-width:none}
+.codes::-webkit-scrollbar{display:none}
+.code{flex:none;display:grid;gap:0;min-width:70px;padding:7px 11px;border-radius:12px;background:var(--surface);line-height:1.3;box-shadow:0 0 0 .5px var(--line)}
+.code b{font:700 15px/1.3 var(--mono)}
+.code span{font-size:11px;color:var(--mute)}
+.code[aria-pressed="true"]{background:var(--accent);box-shadow:none}
+.code[aria-pressed="true"] b,.code[aria-pressed="true"] span{color:var(--onacc)}
+.bsel{margin-top:12px;display:flex;align-items:center;gap:12px;padding:14px 16px}
+.bsel .badge{flex:none;font:700 18px/1 var(--mono);padding:10px 12px;border-radius:12px;background:var(--accent);color:var(--onacc)}
+.bsel h3{font-size:17px;font-weight:700}
+.bsel .btn{margin-left:auto}
+.hill{margin-top:14px;padding:14px 16px;font-size:14px;line-height:1.55}
+.hill b{font-weight:700}
+.pl{display:grid;grid-template-columns:50px minmax(0,1fr);gap:12px;padding:14px 16px}
+.stamp{display:flex;flex-direction:column;gap:4px}
+.tile{font:700 11.5px/1 var(--mono);padding:6px 0;text-align:center;border-radius:8px;background:var(--soft);color:var(--accent)}
+.tile.none{background:var(--fill);color:var(--mute)}
+.pl h3{font:600 16px/1.45 var(--body)}
+.where{font-size:13px;color:var(--mute)}
+.pl ul{display:grid;gap:5px;margin-top:8px}
+.pl li{padding-left:14px;position:relative;font-size:14.5px;line-height:1.5}
+.pl li::before{content:"";position:absolute;left:1px;top:.7em;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+details.fac summary,details.acc summary{cursor:pointer;padding:14px 16px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+details summary::-webkit-details-marker{display:none}
+details.fac summary::after,details.acc summary::after{content:"";flex:none;width:8px;height:8px;border-right:2px solid var(--mute);border-bottom:2px solid var(--mute);transform:rotate(-45deg);transition:transform .18s}
+details[open]>summary::after{transform:rotate(45deg)}
+details.fac dl{display:grid;gap:12px;padding:0 16px 16px}
+details.fac dt{font-size:12px;font-weight:600;color:var(--accent)}
+details.fac dd{font-size:14px}
+
+/* ================= 시간표 ================= */
+.clock{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:14px 16px;border-radius:16px;background:var(--surface)}
+.clock .now{font:600 34px/1 var(--mono);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.clock .day{font-size:13px;color:var(--mute)}
+.clock .ctl{margin-left:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.clock select,.clock input{padding:6px 8px;border:0;border-radius:8px;background:var(--fill);font:500 14px var(--mono)}
+.clock button{padding:6px 12px;border-radius:8px;background:var(--soft);color:var(--accent);font-size:13px;font-weight:600}
+.orow{display:grid;grid-template-columns:12px minmax(0,1fr) auto;gap:2px 12px;padding:12px 16px;align-items:start}
+.dot{width:10px;height:10px;margin-top:7px;border-radius:50%;background:var(--fill);box-shadow:inset 0 0 0 1.5px var(--mute)}
+.orow.on .dot{background:var(--ok);box-shadow:none}
+.orow b{font-weight:600}
+.orow .w{font-size:12px;color:var(--mute);margin-left:6px}
+.orow .st{font-size:13px;font-weight:600;text-align:right;white-space:nowrap;color:var(--mute)}
+.orow.on .st{color:var(--ok)}
+.orow .hr{grid-column:2 / 4;font-size:13px;color:var(--mute)}
+.btn{padding:9px 18px;border-radius:10px;background:var(--fill);font-weight:600;font-size:14px}
+.btn.pri{background:var(--accent);color:var(--onacc)}
+.btn.del{background:var(--warnsoft);color:var(--warn)}
+.msg{font-size:13px;color:var(--warn)}
+details.acc .bd{padding:0 16px 14px;display:grid;gap:7px;font-size:14.5px}
+details.acc .bd li{padding-left:14px;position:relative}
+details.acc .bd li::before{content:"";position:absolute;left:1px;top:.7em;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+details.acc .fn{margin:0 16px 14px}
+
+/* ================= 맛집 ================= */
+.picks{display:flex;gap:10px;overflow-x:auto;padding-block:2px 6px;scrollbar-width:none;margin-inline:-16px;padding-inline:16px}
+.picks::-webkit-scrollbar{display:none}
+.pick{flex:none;width:148px;padding:14px;border-radius:16px;background:var(--surface);display:grid;gap:2px;align-content:start}
+.pick .n{font:700 34px/1.1 var(--display);letter-spacing:-.03em;color:var(--accent)}
+.pick .t{font-weight:600;font-size:15px;line-height:1.35}
+.pick .a{font-size:12px;color:var(--mute);padding-top:2px}
+.mrow{padding:13px 16px;display:grid;gap:3px}
+.mtop{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.mname{font-weight:600;min-width:0}
+.price{font-size:14px;font-weight:600;color:var(--accent);white-space:nowrap}
+.price.none{color:var(--mute);font-weight:400}
+.mmeta{font-size:12.5px;color:var(--mute);display:flex;flex-wrap:wrap;gap:2px 10px}
+.mmeta .k{font-weight:700;color:var(--ink)}
+.mp{font-size:13.5px}
+.mx{font-size:13px;color:var(--mute)}
+.mrow a.map{font-size:13.5px;font-weight:600;width:fit-content;text-decoration:none}
+.sortbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding-block:6px}
+.sortbar select{width:auto;padding:6px 10px;font-size:14px}
+
+/* ================= 교통 ================= */
+.board{background:var(--board-bg);color:var(--board-fg);border-radius:16px;padding:6px 16px;margin-top:4px}
+.brow{display:grid;grid-template-columns:64px minmax(0,1fr);gap:2px 12px;padding-block:12px;border-bottom:1px solid rgba(255,184,28,.25);align-items:center}
+.brow:last-child{border-bottom:0}
+.brow .no{font:700 24px/1 var(--mono);letter-spacing:.02em}
+.brow .to{font:600 15px/1.35 var(--body)}
+.brow .mt{grid-column:2;font-size:12px;line-height:1.4;color:var(--board-dim)}
+.jump{display:flex;gap:8px;flex-wrap:wrap;padding-block:14px 2px}
+.bus{margin-top:14px;padding:16px;border-radius:16px;background:var(--surface);display:grid;gap:10px;scroll-margin-top:12px}
+.bus h3{display:flex;gap:10px;align-items:center;font:700 17px/1.4 var(--body)}
+.nobadge{flex:none;min-width:46px;text-align:center;padding:2px 9px;border-radius:8px;background:var(--accent);color:var(--onacc);font:700 14px/1.5 var(--mono)}
+.bus ul.pt{display:grid;gap:6px}
+.bus ul.pt li{padding-left:14px;position:relative;font-size:14.5px}
+.bus ul.pt li::before{content:"";position:absolute;left:1px;top:.7em;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.route{display:grid;margin-block:4px}
+.route li{position:relative;padding:0 0 9px 26px;font-size:14.5px}
+.route li::before{content:"";position:absolute;left:3px;top:.5em;width:10px;height:10px;border:2.5px solid var(--accent);background:var(--surface);border-radius:50%;z-index:1}
+.route li::after{content:"";position:absolute;left:7px;top:1.35em;bottom:-.45em;width:2px;border-radius:1px;background:var(--accent);opacity:.5}
+.route li:last-child{padding-bottom:0}
+.route li:last-child::after{display:none}
+.times{display:flex;flex-wrap:wrap;gap:6px}
+.times span{padding:3px 10px;border-radius:999px;background:var(--fill);font:500 12.5px var(--mono)}
+.times span b{font-weight:700;color:var(--accent);margin-left:6px}
+.times span.next{background:var(--accent);color:var(--onacc)}
+.times span.next b{color:var(--onacc)}
+table.sh{width:100%;border-collapse:collapse;font-size:13.5px}
+table.sh th,table.sh td{padding:6px 8px 6px 0;border-bottom:.5px solid var(--line);text-align:left;font-variant-numeric:tabular-nums}
+table.sh th{color:var(--mute);font-weight:600;padding-top:12px}
+.scroll-x{overflow-x:auto}
+
+/* ================= 하단 탭 (반투명 탭바) ================= */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--bar);-webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px);
+  border-top:.5px solid var(--line);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav.tabs .in{max-width:680px;margin-inline:auto;display:grid;grid-template-columns:repeat(5,1fr)}
+nav.tabs button{display:grid;justify-items:center;gap:1px;padding:7px 2px 6px;font-size:10.5px;font-weight:500;color:var(--mute);text-align:center}
+nav.tabs button svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+nav.tabs button[aria-current="page"]{color:var(--accent)}
+
+@media (max-width:420px){
+  h1{font-size:32px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .chip,.code,.cell,.btn,.mk{transition:background-color .15s,color .15s,opacity .15s}
+}
+
+/* 개인 시간표 */
+.today{display:grid;gap:3px;padding:14px 16px;border-radius:14px;background:var(--surface);margin-bottom:20px}
+.today[hidden]{display:none}
+.today .k{font-size:12px;font-weight:600;color:var(--accent);letter-spacing:.02em}
+.today b{font:600 20px/1.25 var(--display)}
+.today span{font-size:14px}
+.today .nx{color:var(--mute)}
+.tthead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.tthead h2{margin-bottom:0}
+.btn.pri{background:var(--accent);color:var(--onacc)}
+.tt2{display:grid;grid-template-columns:34px repeat(var(--nd,5),minmax(0,1fr));grid-template-rows:30px auto;background:var(--surface);border-radius:14px;overflow:hidden;margin-top:10px}
+.tt2 .th{display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;border-bottom:.5px solid var(--line)}
+.tt2 .tcol{position:relative;height:calc(var(--hrs)*var(--rh))}
+.tt2 .tcol span{position:absolute;left:0;right:0;transform:translateY(-1px);text-align:center;font:500 10.5px var(--mono);color:var(--mute);padding-top:3px;font-variant-numeric:tabular-nums}
+.tt2 .dcol{position:relative;height:calc(var(--hrs)*var(--rh));border-left:.5px solid var(--line);cursor:pointer;min-width:0;
+  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(var(--rh) - .5px),var(--line) calc(var(--rh) - .5px),var(--line) var(--rh))}
+.tt2 .dcol:hover{background-color:var(--fill)}
+.tt2 .blk{position:absolute;left:2px;right:2px;z-index:1;padding:4px 5px;border-radius:7px;color:#fff;font-size:11.5px;line-height:1.3;overflow:hidden;text-align:left;display:flex;flex-direction:column;gap:1px;box-shadow:0 1px 2px rgba(0,0,0,.18)}
+.tt2 .blk b{font-weight:600;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;word-break:keep-all}
+.tt2 .blk i{font-size:10px;font-style:normal;opacity:.92;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.crow{display:flex;gap:12px;align-items:flex-start;width:100%;padding:12px 16px;border-bottom:.5px solid var(--line);text-align:left}
+.crow:last-child{border-bottom:0}
+.crow .dot{flex:none;width:12px;height:12px;border-radius:50%;margin-top:5px}
+.crow .ci{display:grid;gap:2px;min-width:0}
+.crow b{font-weight:600;font-size:16px}
+.crow small{font-size:13px;color:var(--mute)}
+body.lock{overflow:hidden}
+.sheet{position:fixed;inset:0;z-index:40;display:flex;align-items:flex-end;justify-content:center}
+.sheet[hidden]{display:none}
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.4)}
+.panel{position:relative;width:100%;max-width:560px;max-height:90vh;display:flex;flex-direction:column;background:var(--bg);border-radius:18px 18px 0 0;padding-bottom:env(safe-area-inset-bottom,0px);box-shadow:0 -8px 30px rgba(0,0,0,.25)}
+.ptop{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;padding:12px max(16px,env(safe-area-inset-right,0px)) 12px max(16px,env(safe-area-inset-left,0px));border-bottom:.5px solid var(--line)}
+.ptop h3{text-align:center;font:600 17px var(--display)}
+.pbody{overflow:auto;padding:16px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));display:grid;gap:14px;overscroll-behavior:contain}
+.pbody label{display:grid;gap:4px;font-size:12px;font-weight:600;color:var(--mute)}
+.pbody .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.colors{border:0;padding:0;margin:0;min-width:0}
+.colors legend{font-size:12px;font-weight:600;color:var(--mute);margin-bottom:6px;padding:0}
+.colors div{display:flex;gap:10px;flex-wrap:wrap}
+.sw{width:30px;height:30px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--bg)}
+.sw[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--bg),0 0 0 2.5px var(--ink)}
+.slots-h{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:600;color:var(--mute)}
+.slot{display:grid;grid-template-columns:64px minmax(0,1fr) minmax(0,1fr) auto;gap:8px;padding:10px;border-radius:12px;background:var(--surface);margin-bottom:8px}
+.slot .s-r{grid-column:1 / -1}
+.slot .rm{color:var(--warn)}
+.pbody .btn.del{justify-self:start}
+@media (max-width:420px){.slot{grid-template-columns:60px minmax(0,1fr) minmax(0,1fr)}.slot .rm{grid-column:1 / -1;justify-self:start}}
+
+</style>
+<div class="wrap"><div class="topbar">
+  <span class="appname">교통대 길잡이</span>
+  <button class="thm" id="thbtn" type="button" aria-label="화면 모드 바꾸기" aria-expanded="false" aria-controls="thmenu"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/></svg></button>
+  <div class="thmenu" id="thmenu" hidden role="group" aria-label="화면 모드"><button type="button" data-th="auto">자동 (기기 설정)</button><button type="button" data-th="light">라이트</button><button type="button" data-th="dark">다크</button></div>
+</div></div>
+<!-- ============ 학교 지도 ============ -->
+<section id="tab-map" class="tab" hidden>
+<div class="wrap">
+  <header class="hd">
+    <p class="kick">충주캠퍼스</p>
+    <h1>학교 지도</h1>
+    <p class="sub">건물 번호를 누르면 그 건물 안팎의 장소가 아래에 나와요. 학교 공식 캠퍼스지도 위에 번호를 얹었어요.</p>
+  </header>
+  <div class="mapcard">
+    <div class="maptool"><span class="note" id="mapnote">번호를 눌러 보세요</span><div class="seg" id="zoomseg" role="group" aria-label="확대"><button type="button" data-z="1" aria-pressed="true">1×</button><button type="button" data-z="1.9" aria-pressed="false">2×</button><button type="button" data-z="3" aria-pressed="false">3×</button></div></div>
+    <div class="mapbox" id="mapbox"><div class="mapin" id="mapin"><img id="mapimg" src="ut_map.png" alt="한국교통대 충주캠퍼스 일러스트 지도" width="574" height="479" decoding="async"></div></div>
+  </div>
+  <div class="codes" id="codes" role="group" aria-label="건물번호로 거르기"></div>
+  <div class="bsel grp" id="bsel" hidden></div>
+  <div class="grp hill"><b>오르막 요령.</b> 인문사회관(E14)이 캠퍼스에서 가장 높은 곳이에요. 건축관(E12) 엘리베이터를 타고 3층에서 내려 가거나 건설환경관(E13) 엘리베이터를 쓰면 오르막이 줄어요. 학기 중 평일에는 999번 버스가 인문사회관 앞까지 올라와요.</div>
+  <h2>장소 모음</h2>
+  <div class="bar" id="catbar" role="group" aria-label="분류"></div>
+  <div class="bar"><input class="field" id="mq" type="search" placeholder="검색 (예: 콘센트, 24시간)" autocomplete="off"></div>
+  <p class="count" id="mcount"></p>
+  <div id="places"></div>
+  <h2>생활 시설 목록</h2>
+  <div class="grp"><details class="fac"><summary>편의점 · 프린트 · 세탁방 · 택배 · 원룸</summary><dl id="fac"></dl></details></div>
+  <p class="src">지도와 건물 번호·이름은 학교 공식 캠퍼스지도(ut.ac.kr)를 따랐어요. 장소 설명은 학생 제보(2026년 10월 초 확인)이고, 시설 운영은 수업, 행사, 안전관리에 따라 바뀔 수 있어요. 공식 지도 이미지가 574×479 한 가지 크기뿐이라 확대하면 흐려 보여요.</p>
+</div>
+</section>
+
+<!-- ============ 시간표 ============ -->
+<section id="tab-time" class="tab" hidden>
+<div class="wrap">
+  <header class="hd">
+    <p class="kick">공강 · 수강신청 · 운영시간</p>
+    <h1>운영시간</h1>
+    <p class="sub">지금 열려 있는 곳을 먼저 확인하세요. 내 수업 시간표는 맨 오른쪽 탭에서 직접 만들 수 있어요.</p>
+  </header>
+
+  <div class="clock">
+    <span class="now" id="cnow">--:--</span>
+    <span class="day" id="cday"></span>
+    <span class="ctl">
+      <select id="cd" aria-label="요일"><option value="0">월</option><option value="1">화</option><option value="2">수</option><option value="3">목</option><option value="4">금</option><option value="5">토</option><option value="6">일</option></select>
+      <input id="ct" type="time" aria-label="시각">
+      <button id="creset" type="button">지금으로</button>
+    </span>
+  </div>
+
+  <h2>지금 열려 있는 곳 <small id="ocount"></small></h2>
+  <div class="grp" id="open"></div>
+  <p class="hint">학기 중 기준이에요. 방학에는 달라져요. 요일이 적혀 있지 않은 곳은 제보에 요일이 없었던 곳이라 매일 같은 시간으로 계산해요.</p>
+
+  <h2>수강신청 · 학교생활 요령</h2>
+  <div class="grp">
+  <details class="acc"><summary>교양 먼저 잡는 법</summary><ul class="bd">
+    <li>경쟁이 가장 센 교양을 첫 클릭으로 잡아요.</li>
+    <li>장바구니에 1순위 바로 아래, 같은 시간대의 차선책을 붙여 둬요.</li>
+    <li>유선 PC를 메인으로 쓰고, 휴대폰은 로그인만 해 둔 백업으로 둬요. 서버 시간을 맞춰 두세요.</li>
+    <li>못 잡은 과목은 수강정정 첫날 아침에 빈자리가 자주 남아요.</li>
+  </ul></details>
+  <details class="acc"><summary>장바구니와 학점 한도</summary><ul class="bd">
+    <li>장바구니는 내 수강학점 안에서만 담기고, 관심과목은 학점 제한 없이 담을 수 있어요.</li>
+    <li>장바구니에 담아도 끝이 아니에요. 최종 수강신청 기간에 '신청'을 눌러야 확정돼요.</li>
+    <li>2026년 2학기부터는 가장 최근에 로그인한 기기 1대에서만 신청돼요.</li>
+    <li>학점 한도는 학기당 19학점이고, 직전 학기 평점 4.0 이상이면 23학점이에요.</li>
+    <li>예비수강신청 기간에 실전처럼 미리 등록해 두면 본 신청이 빨라요. 필수 전공과 교양은 통합정보시스템에서 확인하고, 필요하면 학과사무실이나 지도교수님과 상담하세요.</li>
+  </ul></details>
+  <details class="acc"><summary>수강 철회</summary><ul class="bd">
+    <li>개강 후 7주 안의 정해진 기간(3월 말, 9월 말)에 3과목까지 철회할 수 있어요.</li>
+    <li>철회해도 등록금은 돌려받지 못해요.</li>
+  </ul></details>
+  <details class="acc"><summary>천원의 아침밥</summary><ul class="bd">
+    <li>매 학기 열려요. 참여 방법과 기간은 통합정보시스템 행사 공지사항에서 확인해요.</li>
+    <li>PAYCO 앱으로 신청해요. 오전 7시 선착순 200개이고, 홀수 달에는 학식, 짝수 달에는 편의점 도시락으로 바뀐다는 제보가 있어요.</li>
+  </ul>
+  <p class="fn">받는 곳이 학식당이라는 제보와 종합강의동 CU라는 제보가 있어요. 공지사항에서 확인하세요.</p></details>
+  <details class="acc"><summary>학식 메뉴 확인하는 법</summary><ul class="bd">
+    <li>학교 홈페이지 식단안내, 또는 학교 앱 '한국교통대학교 스마트모바일'의 대학생활 메뉴에서 봐요.</li>
+    <li>생활관 식단은 생활관 홈페이지의 오늘의 식단 게시판에 올라와요.</li>
+  </ul></details>
+  <details class="acc"><summary>생활관 벌점 안 쌓는 법</summary><ul class="bd">
+    <li>점호는 23:30이에요. 귀사는 01:00 전까지 하고, 01:00~04:00에는 출입이 통제돼요.</li>
+    <li>벌점 8점이면 다음 학기 입사가 안 되고, 10점이면 퇴사예요.</li>
+    <li>음주와 실내 흡연은 바로 10점이에요. 전열기를 쓰거나 출입카드를 빌려주는 것도 금지예요.</li>
+  </ul></details>
+  <details class="acc"><summary>동아리 하나 소개</summary><ul class="bd">
+    <li>사랑방은 역사가 40년 된 연극 동아리예요. 배우뿐 아니라 조명, 음향, 무대 제작 팀이 있고, 전문 지식은 필요 없어요. 진지한 마음과 시간을 내면 돼요.</li>
+  </ul></details>
+  </div>
+  <p class="src">학생 제보를 정리한 내용이에요(2026년 10월 초 확인). 학사 일정과 학점 규정은 해마다 바뀔 수 있어요. 교시별 수업 시각은 제보에 없어 시간 단위 칸으로 만들었어요.</p>
+</div>
+</section>
+
+<!-- ============ 맛집 ============ -->
+<section id="tab-my" class="tab" hidden>
+<div class="wrap">
+  <header class="hd">
+    <p class="kick">내 수업 · 내 공강</p>
+    <h1>개인 시간표</h1>
+    <p class="sub">수업을 직접 입력해서 나만의 시간표를 만들어요. 이 기기의 브라우저에만 저장되고, 다른 기기나 다른 사람에게는 보이지 않아요.</p>
+  </header>
+
+  <div class="today" id="today" aria-live="polite"></div>
+
+  <div class="tthead">
+    <h2>이번 학기 <small id="ttsum"></small></h2>
+    <button class="btn pri" id="ttadd" type="button">수업 추가</button>
+  </div>
+  <div class="tt2" id="tt" aria-label="주간 시간표"></div>
+  <p class="hint" id="tthint">빈 칸을 누르면 그 요일과 시간으로 수업 추가 창이 열려요. 강의실에 E14, W5 같은 건물번호를 쓰면 건물 이름이 붙어요.</p>
+
+  <h2>과목 목록</h2>
+  <div class="grp" id="clist"></div>
+</div>
+
+<div class="sheet" id="sheet" hidden>
+  <div class="scrim" id="scrim"></div>
+  <form class="panel" id="ttform" role="dialog" aria-modal="true" aria-labelledby="sheet-title" novalidate>
+    <div class="ptop">
+      <button class="btn" id="tt-cancel" type="button">닫기</button>
+      <h3 id="sheet-title">수업 추가</h3>
+      <button class="btn pri" id="tt-save" type="submit">저장</button>
+    </div>
+    <div class="pbody">
+      <label for="tt-name">과목명<input class="field" id="tt-name" type="text" maxlength="30" placeholder="예: 실무영어" autocomplete="off"></label>
+      <div class="two">
+        <label for="tt-prof">교수님<input class="field" id="tt-prof" type="text" maxlength="20" placeholder="선택" autocomplete="off"></label>
+        <label for="tt-cr">학점<input class="field" id="tt-cr" type="number" inputmode="numeric" min="0" max="9" step="1" placeholder="선택"></label>
+      </div>
+      <fieldset class="colors"><legend>색</legend><div id="tt-colors"></div></fieldset>
+      <div class="slots-h"><span>수업 시간</span><button class="btn" id="tt-addslot" type="button">시간 추가</button></div>
+      <div id="tt-slots"></div>
+      <p class="msg" id="tt-msg" role="alert"></p>
+      <button class="btn del" id="tt-del" type="button" hidden>이 수업 삭제</button>
+    </div>
+  </form>
+</div>
+</section>
+
+<section id="tab-food" class="tab" hidden>
+<div class="wrap">
+  <header class="hd">
+    <p class="kick">대학로 · 시내 · 학식</p>
+    <h1>맛집·카페</h1>
+    <p class="sub">학생들이 직접 적어 낸 가게예요. 같은 가게를 여러 명이 적으면 추천 수가 올라가요. 가격은 제보에 있는 것만 실었어요.</p>
+  </header>
+  <h2>가장 많이 추천받은 곳</h2>
+  <div class="picks" id="picks"></div>
+  <h2>전체 목록</h2>
+  <div class="bar" id="areabar" role="group" aria-label="지역"></div>
+  <div class="bar" id="kindbar" role="group" aria-label="종류"></div>
+  <div class="bar"><input class="field" id="fq" type="search" placeholder="가게 이름이나 메뉴 검색 (예: 국밥, 부리또)" autocomplete="off"></div>
+  <div class="sortbar">
+    <button class="chip" id="fprice" type="button" aria-pressed="false">최저가 1만원 이하만</button>
+    <label for="fsort" class="note">정렬</label>
+    <select class="field" id="fsort"><option value="k">추천 많은 순</option><option value="p">최저가 낮은 순</option><option value="n">이름순</option></select>
+  </div>
+  <p class="count" id="fcount"></p>
+  <div class="grp" id="menu"></div>
+  <h2>저녁 이후 · 놀 곳</h2>
+  <div class="grp"><details class="fac" open><summary>술집 · PC방 · 노래방</summary><dl id="night"></dl></details></div>
+  <p class="src">학생 제보를 정리한 내용이에요(2026년 10월 초 확인). 가격 앞의 '평균'은 제보한 사람이 평균값으로 적은 것이고, '리뷰'는 온라인 리뷰에서 가져온 값이에요. 가격과 영업시간은 바뀌니 가기 전에 지도에서 확인하세요. 최저가는 제보된 메뉴 중 가장 싼 값이라 대표 메뉴 가격과 다를 수 있어요.</p>
+</div>
+</section>
+
+<!-- ============ 교통 ============ -->
+<section id="tab-bus" class="tab" hidden>
+<div class="wrap">
+  <header class="hd">
+    <p class="kick">버스 · 셔틀 · 택시</p>
+    <h1>교통</h1>
+    <p class="sub">충주는 버스가 적고 시간이 어긋나는 일이 많아요. 아래 숫자가 학교 안까지 들어오는 번호예요.</p>
+  </header>
+
+  <div class="board" aria-label="요약">
+    <div class="brow"><span class="no">999</span><span class="to">학교 ⇄ 충주역 · 터미널</span><span class="mt">학기 중 평일 · 첫차 08:15 · 교내 정류장 4곳</span></div>
+    <div class="brow"><span class="no">700</span><span class="to">대학순환 → 연수동 번화가</span><span class="mt">하루 4회 · 주말·공휴일·방학 없음</span></div>
+    <div class="brow"><span class="no">셔틀</span><span class="to">충주역·터미널 ⇄ 캠퍼스 (무료)</span><span class="mt">학기 중만 · 2학기 9/1~12/21</span></div>
+  </div>
+
+  <div class="jump" role="group" aria-label="목적지로 가기">
+    <button class="chip" data-go="b-city" type="button">시내·충주역</button>
+    <button class="chip" data-go="b-700" type="button">연수동</button>
+    <button class="chip" data-go="b-shuttle" type="button">무료 셔틀</button>
+    <button class="chip" data-go="b-paid" type="button">청주·이천</button>
+    <button class="chip" data-go="b-ex" type="button">서울·공항</button>
+    <button class="chip" data-go="b-taxi" type="button">택시</button>
+  </div>
+
+  <article class="bus" id="b-city">
+    <h3><span class="nobadge">999</span>시내·충주역·터미널</h3>
+    <p>학교와 시내를 가장 짧게 잇는 노선이에요. 교통대 정문과 기숙사, 인문사회관 앞까지 들어와요.</p>
+    <ol class="route">
+      <li>한국교통대</li><li>교통대 정문</li><li>달천</li><li>건대사거리</li><li>충주역</li><li>터미널</li>
+    </ol>
+    <ul class="pt">
+      <li>교내 정류장은 인문사회대 앞, 대학본부 앞, 체육관 앞, 대학로 쪽이에요.</li>
+      <li>학기 중 평일만 다녀요. 토·일·공휴일·방학에는 안 다녀요.</li>
+      <li>목·금요일에는 본가에 가는 학생이 많아서 다른 요일보다 매우 붐벼요.</li>
+      <li>시간표는 교내 모든 정류장에 붙어 있어요. 에브리타임에서 '999'를 검색하면 시간표가 나오니 저장해 두세요.</li>
+      <li>999번이 안 다니는 때는 농협 하나로마트 맞은편 정류장에서 터미널·시내로 가는 100번대를 타요.</li>
+      <li>통학생은 100번대로 등교한 뒤 높은 곳에 있는 학과라면 터미널에서 999번으로 갈아타면 교내 곳곳에 내려 줘요.</li>
+    </ul>
+  </article>
+
+  <article class="bus" id="b-100">
+    <h3><span class="nobadge">100</span>정문까지 들르는 시내버스</h3>
+    <p>999번 말고도 오전에 주덕 가는 노선이 교통대 정문까지 들렀다 유턴해요. 터미널 출발 기준 시각이에요. <span class="note" id="nextnote"></span></p>
+    <div class="times" id="t100"></div>
+    <ul class="pt">
+      <li>106번은 터미널 방향으로 자전거길 정류장에 하루 3번(10:50, 15:04, 19:04) 서요. 지도에 안 떠도 손을 흔들면 세워 준다는 댓글이 있어요.</li>
+      <li>터미널을 넘어 학교 – 터미널 – 호암동으로 이어지는 노선도 보통 100번대예요. 하나로마트 맞은편이나 정문에서 세워 줘요.</li>
+      <li>신연수동은 터미널이나 시내에서 내려 300번대로 갈아타요. 360번대는 신연수동에 가지 않아요. 300번대는 서는 정류장이 따로 있으니 노선표를 확인하세요.</li>
+    </ul>
+    <p class="fn">시간표는 바뀔 수 있어요. 충주시 버스 정보나 카카오맵으로 다시 확인하세요. 요일 조건은 제보에 없었어요.</p>
+  </article>
+
+  <article class="bus" id="b-700">
+    <h3><span class="nobadge">700</span>대학순환 (연수동 가는 길)</h3>
+    <p>2024-09-02에 생긴 대학순환 노선이에요. 하루 4회 다니고, 시내 번화가(연수동)로 바로 갈 때 써요.</p>
+    <ol class="route">
+      <li>교통대</li><li>건국대</li><li>풍경채</li><li>영은교회</li><li>신원8차</li><li>연수초교사거리</li><li>한스타워</li><li>터미널</li><li>건대정문</li><li>교통대 (순환)</li>
+    </ol>
+    <ul class="pt"><li>토·일·공휴일·방학에는 안 다녀요. 시간은 교내 정류장에 붙은 700번 시간표를 보세요.</li></ul>
+  </article>
+
+  <article class="bus" id="b-call">
+    <h3><span class="nobadge">콜</span>대소원면 콜버스</h3>
+    <ul class="pt">
+      <li>2024년 6월에 생긴 호출형 버스예요. 현금 1,000원, 카드 900원.</li>
+      <li>오전에는 정해진 길로 다니고, 오후에는 예약해서 불러요.</li>
+      <li>콜버스와 시내버스는 40분 안에 2번까지 무료로 환승돼요. 시내버스 일반 요금은 1,700원이에요.</li>
+    </ul>
+  </article>
+
+  <article class="bus" id="b-shuttle">
+    <h3><span class="nobadge">셔틀</span>충주터미널·충주역 무료 통학버스</h3>
+    <ul class="pt">
+      <li>요금은 무료예요. 학기 중에만 다녀요. 2026년 2학기는 9/1~12/21이고 방학에는 없어요.</li>
+      <li>교내에 들어오면 빙빙 돌면서 중간중간 내려 줘요.</li>
+    </ul>
+    <div class="scroll-x"><table class="sh">
+      <thead><tr><th>등교</th><th>시각</th></tr></thead>
+      <tbody>
+        <tr><td>충주터미널</td><td>08:37</td></tr><tr><td>충주역</td><td>08:40</td></tr><tr><td>충주캠퍼스</td><td>08:55</td></tr><tr><td>노천극장 건너편</td><td>08:57</td></tr>
+        <tr><td colspan="2" class="note">이후 교내 순환: 화학생명관 건너편, 스마트ICT관, 대원·중원생활관</td></tr>
+      </tbody>
+      <thead><tr><th>하교</th><th>시각</th></tr></thead>
+      <tbody>
+        <tr><td>중원생활관</td><td>17:50</td></tr><tr><td>대원생활관</td><td>17:52</td></tr><tr><td>스마트ICT관</td><td>17:55</td></tr><tr><td>화학생명관</td><td>17:57</td></tr><tr><td>노천극장 앞</td><td>17:58</td></tr><tr><td>대학로</td><td>18:00</td></tr><tr><td>충주역</td><td>18:25</td></tr><tr><td>충주터미널</td><td>18:30</td></tr>
+      </tbody>
+    </table></div>
+    <p class="fn">다른 제보에는 터미널 09:35 → 충주역 09:40 → 캠퍼스 09:50으로 적혀 있어 위 시각과 달라요. 하교도 캠퍼스 17:50 → 충주역 17:30처럼 순서가 맞지 않아요. 타기 전에 학교 통학버스 안내를 확인하세요.</p>
+  </article>
+
+  <article class="bus" id="b-paid">
+    <h3><span class="nobadge">유료</span>청주·이천 통학버스</h3>
+    <ul class="pt">
+      <li>청주 가경터미널 07:15, 이천 부발역 07:50 출발 노선이 있어요. 편도 3,500원이고 PAYCO 모바일 승차권으로 결제해요.</li>
+      <li>교통대 – 이천 부발역, 교통대 – 청주 모두 왕복이 있고 시간은 PAYCO 앱에서 확인해요.</li>
+      <li>1학기 3/3~6/19, 2학기 9/1~12/21에만 다녀요. 방학에는 없어요.</li>
+      <li>PAYCO는 천원의 아침밥과 바코드 결제도 돼요. 포인트 결제 캐시백이 카카오페이, 네이버페이보다 많은 편이라는 제보가 있어요.</li>
+    </ul>
+  </article>
+
+  <article class="bus" id="b-ex">
+    <h3><span class="nobadge">고속</span>서울·경기 · 인천공항</h3>
+    <ul class="pt">
+      <li>경기권이나 서울 방면 고속·시외버스는 교통대시외버스정류소(만정리 160-4)에서 타요. 대학로 파리바게뜨, 하나로마트에서 도로를 따라 조금 걸으면 작은 정류장이 나와요.</li>
+      <li>티머니GO 같은 고속버스 앱에서 '교통대'로 출발지와 도착지를 고를 수 있어요.</li>
+      <li>명시된 시각보다 보통 5분, 평균 10분 늦게 와요(센트럴·강변 방향). 모바일 앱으로 예약하세요.</li>
+      <li>금요일과 일요일 서울 ⇄ 충주 버스는 일주일 전부터 대부분 매진이에요. 금요일 출발은 일주일 전 예약을 권해요.</li>
+      <li>인천공항행 직통 리무진은 충주공용버스터미널(봉계1길 49, 롯데마트 충주점과 같은 건물)에서 타요. 방학 출국 철에는 일찍 매진돼서 버스타고(Bustago) 앱 사전 예매가 필수예요.</li>
+    </ul>
+  </article>
+
+  <article class="bus" id="b-taxi">
+    <h3><span class="nobadge">택시</span>학생증으로 시외할증 빼기</h3>
+    <ul class="pt">
+      <li>대학로와 시내 사이를 택시로 오갈 때 학생증을 보여 주면 시외할증이 빠져요.</li>
+      <li>모바일 학생증(교통대 앱)으로도 된다는 제보가 있지만, 실물 학생증을 달라는 기사님이 많아요. 실물 학생증을 만들어 두는 것을 권해요.</li>
+    </ul>
+  </article>
+
+  <article class="bus" id="b-tip">
+    <h3><span class="nobadge">팁</span>이동할 때 알아 둘 것</h3>
+    <ul class="pt">
+      <li>카카오맵에서 버스 아이콘을 눌러 정류장을 저장해 두면 실시간 도착 시간이 보여요.</li>
+      <li>충주는 노선이 적어 환승이 잦고, 정류장까지 10분은 걸어야 하는 경우가 많아요.</li>
+      <li>공강에 더 멀리 놀러 가고 싶다면 렌트가 낫다는 제보도 있어요.</li>
+      <li>당일에 보내거나 받아야 하는 택배는 충주터미널 택배 노선을 쓰면 돼요.</li>
+    </ul>
+  </article>
+  <p class="src">학생 제보를 정리한 내용이에요(2026년 10월 6~7일 확인). 버스 시각과 요금은 자주 바뀌어요. 탈 때는 카카오맵, 충주시 버스 정보, 학교 공지를 다시 보세요.</p>
+</div>
+</section>
+
+<nav class="tabs" aria-label="화면 선택"><div class="in">
+  <button id="nav-map" data-tab="map" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></svg>학교 지도</button>
+  <button id="nav-time" data-tab="time" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17"/><path d="M3 9h18M8 2v4M16 2v4M7 13h3M13 13h4M7 17h3"/></svg>운영시간</button>
+  <button id="nav-food" data-tab="food" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16a8 8 0 0 1-16 0zM9 4c-1 1.5 1 2.5 0 4M14 4c-1 1.5 1 2.5 0 4M3 21h18"/></svg>맛집</button>
+  <button id="nav-bus" data-tab="bus" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="15"/><path d="M4 12h16M8 21v-3M16 21v-3M8 15.5h.01M16 15.5h.01M9 3v4h6V3"/></svg>교통</button>
+  <button id="nav-my" data-tab="my" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 9h18M8 2v4M16 2v4M8 13h8M8 17h5"/></svg>개인 시간표</button>
+</div></nav>
+
+<script>
+/* ---------- 데이터: 신입생 1주차 제보를 정리한 것 (작성자 이름 제외) ---------- */
+/* 학교 공식 캠퍼스지도(ut.ac.kr) 건물 목록과 지도 이미지(574x479) 위 마커 위치. [코드, 이름, top, left] */
+const BLD_RAW = [
+['E1','정문',406,343],['E2','국원쉼터',390,401],['E3','국원생활관',345,479],['E4','시스템관·국원문화관',273,487],
+['E5','테크노관',284,435],['E6','학생회관',221,400],['E7','경영항공관',193,458],['E8','대학본부',154,365],
+['E8-1','대학본부 별관',197,352],['E9','항공·기계실습실',123,395],['E10','역학시험동',103,415],['E11','창업생산동',101,451],
+['E12','건축관',116,254],['E13','건설환경관',71,283],['E14','인문사회관',39,334],['E15','학군단',59,428],
+['E16','대원생활관',11,404],['E17','스마트ICT관',79,398],['E18','국제청년협력센터',216,432],
+['W1','테니스장',392,232],['W2','아레나K',340,236],['W3','국원노천극장',324,278],['W4','대학원',244,263],
+['W5','종합강의관',209,265],['W6','휴스퀘어관',227,233],['W7','화학생명관',160,268],['W9','공동실험관',44,158],
+['W10','중원생활관',7,217],['W11','예성생활관',4,264],['W13','예성관리동',5,309],['W15','동아리관',89,66],
+['W16','IT관',172,71],['W17','인터넷창업센터',183,114],['W18','미래융합정보관',212,112],['W19','대운동장',333,81],
+['W20','중앙도서관·교육관',323,142],['W22','환경관',383,18]
+];
+const BLD = BLD_RAW.map(a=>({c:a[0],n:a[1],t:a[2],l:a[3]}));
+const MAP_W = 574, MAP_H = 479;
+
+const CATS = [
+  ['study','공부'],['rest','쉬기'],['walk','걷기·야경'],['move','운동'],['errand','일 처리'],['out','캠퍼스 밖']
+];
+
+const PLACES = [
+  /* ---- 오르막 요령 ---- */
+  {n:'인문사회관 오르막 지름길', b:['E12','E13','E14'], c:'walk', w:'건축관 · 건설환경관 엘리베이터',
+   t:['건축관 엘리베이터를 타고 3층에서 내려서 가면 오르막이 훨씬 줄어요. 후문 쪽 건물로 올라갈 때도 쉬엄쉬엄 올라갈 수 있어요.','건설환경관 안 엘리베이터를 쓰는 방법도 있어요. 1학기 더위에 인문사회관으로 걸어 올라가면 땀이 많이 나서, 실무영어 수강생에게 특히 쓸모 있다는 제보예요.']},
+  /* ---- 공부 ---- */
+  {n:'중앙도서관 3층 열람실', b:['W20'], c:'study', w:'중앙도서관 3층',
+   t:['전 좌석에 콘센트와 Wi-Fi가 있고 좌석은 좌석배정시스템으로 잡아요.','시험기간과 그 전 1주는 24시간 열어요. 같은 층의 CU 도서관점도 24시간 무인이라 밤샘 공부에 편해요.','1층 게이트에서 모바일 학생증 바코드를 태그해야 들어가요.'],
+   f:'c', fn:'운영시간이 06:00~24:00(네이버 지도)와 05:00~24:00(도서관 안내 페이지)로 달라요. 안내 페이지는 공사 전 정보일 수 있어요.'},
+  {n:'캐럴실 (개인열람실)', b:['W20'], c:'study', w:'중앙도서관',
+   t:['칸막이 자리에서 혼자 집중하는 열람실. 09:00~21:00.','디지털정보센터 예약시스템으로 예약한 뒤 이용해요.'],
+   f:'c', fn:'3층이라는 제보와 1층 1인 캐럴실이라는 제보가 있어요. 예약 화면에서 확인하세요.'},
+  {n:'그룹스터디실', b:['W20'], c:'study', w:'중앙도서관 디지털정보센터',
+   t:['좌석예약시스템으로 예약하고 안내데스크에서 열쇠를 받아요. 팀플 때 씁니다.','디지털정보센터 운영은 학기 중 09:00~21:00, 방학 중 09:00~18:00.']},
+  {n:'중앙도서관 2층 라운지', b:['W20'], c:'study', w:'중앙도서관 2층 디지털정보센터',
+   t:['2026년 9월에 새 단장을 마친 카페형 라운지. 오픈 스터디 라운지와 휴게 공간이 있어요.','2층에는 DVD 감상석이 있어 공강 때 영화 한 편 보기 좋다는 평이에요. 공용 컴퓨터도 있어요.']},
+  {n:'지스퀘어 (G-Square)', b:['W20'], c:'study', w:'중앙도서관 2·3층 로비',
+   t:['도서관 로비의 학습 공간. 3층 로비 파티션 테이블은 금방 차니 일찍 가서 잡으세요.','도서관 전체가 휴관할 때도 지스퀘어는 운영한다고 안내된 적이 있어요.'],
+   f:'u', fn:'평소 이용 시간은 확인하지 못했어요.'},
+  {n:'블루포트 (인문사회관 1층 카페)', b:['E14'], c:'study', w:'인문사회관 1층',
+   t:['영업은 평일 09:00~17:30, 주말 휴무. 영업 후에도 공간은 열려 있어 공부할 수 있어요.','음료를 안 시켜도 조별과제를 잠깐 하기 좋아요. 무인 프린터는 프린트 카드로만 결제돼요.']},
+  {n:'인문사회관 1층 휴게실', b:['E14'], c:'study', w:'인문사회관 입구 왼쪽',
+   t:['자판기, 탁자, 의자가 있어요. 앞에는 인쇄기와 컴퓨터가 있어요.','배달 시켜 점심을 먹는 학생도 있어요. 먹고 나면 정리는 필수.']},
+  {n:'휴스퀘어관 (휴카페)', b:['W6'], c:'study', w:'W6동 · 캠퍼스 중앙',
+   t:['학교가 관리하는 카페라 가격이 싸고 좌석이 넓어요. 카페플로르는 월~목 09:00~20:00, 금 09:00~18:00.','그룹스터디룸과 전시공간이 있어요. 건물 앞에 그늘막과 앉을 곳이 있어요.'],
+   f:'u', fn:'일부 제보는 W5로 적었지만 학교 공식 건물 목록은 W6예요(W5는 종합강의관).'},
+  {n:'종합강의관 휴게라운지', b:['W5'], c:'study', w:'종합강의관 1층·3층',
+   t:['1층은 모바일 학생증 QR을 태그해야 들어가고, 3층은 자유롭게 드나들어요.','소파와 충전 콘센트가 있어 연강 사이 30분~1시간을 보내기 좋아요.']},
+  {n:'올탑스터디카페 충주교통대점', b:[], c:'study', w:'대학로 27, 올탑 3층',
+   t:['매일 24시간. 2시간 3,000원, 4시간 5,000원, 6시간 6,000원.','도서관과 학교 카페에 자리가 없을 때 가요. 사람이 많아지면 자리 잡기 힘들다는 리뷰가 있어요.']},
+  {n:'생활관 독서실', b:['E3','W13','W10','E16'], c:'study', w:'각 생활관 (입주생용)',
+   t:['국원 5층 중앙, 예성 관리동 2층, 중원 6층, 대원 2층. 내 생활관 층부터 확인하세요.','시험 기간에 도서관 자리 경쟁을 피하기 좋아요. 중원 6층에는 컴퓨터실과 프린터(프린트 카드 필요)도 있어요.']},
+  {n:'소담스퀘어 충북', b:['E3'], c:'study', w:'E3동 1층',
+   t:['네이버 예약으로 스튜디오와 공유오피스 회의실을 무료로 쓸 수 있어요.']},
+
+  /* ---- 쉬기 ---- */
+  {n:'대학본부 앞 잔디광장', b:['E8'], c:'rest', w:'대학본부 앞 야외',
+   t:['캠퍼스 중심의 잔디와 벤치. 학생증 태그도 이용료도 없어요.','봄엔 벚꽃, 가을엔 단풍이라 기념사진 찍으러 오는 학생이 많아요.']},
+  {n:'국원 쉼터', b:['E2'], c:'rest', w:'E2동',
+   t:['앉을 곳이 있고 여름 햇빛이 강할 때 그늘이 생겨요. 어디서 모일지 모를 때 약속 장소로 정하기 좋아요.']},
+  {n:'학생회관 3·4층 로비', b:['E6'], c:'rest', w:'학생회관',
+   t:['쉬어 가는 로비 공간이에요.'], f:'u', fn:'자세한 설명은 제보에 없었어요.'},
+  {n:'보건실 안정실', b:['E8'], c:'rest', w:'대학본부 1층 보건실 안',
+   t:['등·발 마사지기와 침상이 있어 몸이 안 좋을 때 잠깐 누워 쉴 수 있어요.','보건실은 09:00~18:00, 점심 12:00~13:00은 비어요. 재학생은 간단한 약 처방도 받을 수 있어요.']},
+  {n:'인문사회예술대학 소극장', b:['E14'], c:'rest', w:'인문사회관',
+   t:['대형 강의실이라 행사가 없으면 대개 비어 있어요. 영화관 같은 의자에서 조용히 쉬거나 눈을 붙이는 학생이 있어요.','먼저 와 있는 사람이 있을 수 있어요. 조용히 하고, 누가 들어와도 아는 척하지 않는 것이 암묵적인 규칙이라고 해요.'],
+   f:'u', fn:'소극장의 층은 확인하지 못했어요. 행사가 있으면 쓸 수 없어요.'},
+  {n:'국원노천극장', b:['W3'], c:'rest', w:'무료 통학버스 정차 지점 앞',
+   t:['계단식 좌석과 흔들의자가 있는 야외 공연장. 해오름식 같은 행사가 열려요.','행사가 없는 날은 바람 쐬며 쉬기 좋아요. 흔들의자는 커플들의 1등석이라는 평이에요.']},
+  {n:'인문사회관 옥상', b:['E14'], c:'rest', w:'학교에서 가장 높은 곳',
+   t:['풍경이 좋다는 제보예요. 올라가는 길이 가파르니 건축관·건설환경관 엘리베이터를 쓰세요.'],
+   f:'u', fn:'옥상에 학생이 들어갈 수 있는지는 확인하지 못했어요. 출입이 제한될 수 있어요.'},
+  {n:'주차장 노을 자리', b:[], c:'rest', w:'인사대에서 이쪽 라인으로 걷기',
+   t:['걸어가면 학곡산이 나오는 곳. 노을 질 때 예뻐요.']},
+  {n:'카페 제이', b:[], c:'rest', w:'요도천변길 299 · 인사대 후문 쪽',
+   t:['커피가 맛있는 곳. 테이크아웃해서 내천을 걷기 좋아요.']},
+  {n:'고양이·청설모 보는 곳', b:['W18'], c:'rest', w:'대학본부 버스 정류장 주변 · 미래융합정보관 앞 나무',
+   t:['정류장 주변에는 고양이가, 미래융합정보관 앞 나무에는 청설모가 나온다는 제보예요.']},
+
+  /* ---- 걷기·야경 ---- */
+  {n:'교내 둘레길', b:['E1','E5','E17','W16','W4'], c:'walk', w:'정문 → 테크노관 → 스마트ICT관 → 생활관 → IT관 → 대학원 → 정문',
+   t:['순환 코스. 약 3.26km, 빠르게 걸으면 1시간쯤 걸린다는 제보가 있어요.','안내판 기준 8개 구간: 국원길 320m(5분), 웅비길 670m(15분), 해찬솔길 400m(7분), 비상길 510m(8분), 꽃내음길 320m(8분), 중예길 310m(5분), 가온길 620m(9분), 온새미로길 850m(10분).','혼자 생각 정리하거나 교내 데이트 코스로 추천돼요. 시작 지점이 한 곳이 아니에요.'],
+   f:'c', fn:'8개 구간을 모두 더하면 4,000m(약 67분)로, 3.26km와 맞지 않아요. 어느 쪽이 맞는지 확인하지 못했어요.'},
+  {n:'스마트ICT관 뒷 산책길', b:['E15','E17'], c:'walk', w:'학군단 건물 옆 숲길',
+   t:['낮에 혼자 걸으면 숲길 느낌이 나고, 밤에 친구들과 가면 담력 체험이 된다고 해요.']},
+  {n:'건설환경관~스마트ICT관 인도길', b:['E13','E17'], c:'walk', w:'차도 옆 나무데크 인도',
+   t:['밤에는 펜스에 전등이 켜져 둘이 걷기 좋아요. 선선한 날 가벼운 외투 하나 들고 나오세요.']},
+  {n:'인사대 옆 숲길', b:['E14'], c:'walk', w:'둘레길 코스 중 하나',
+   t:['스마트ICT관 뒷길처럼 둘레길의 산책길이 이어져요.']},
+  {n:'대원생활관 뒷길', b:['E16','E15'], c:'walk', w:'E15동 앞까지',
+   t:['사람도 차도 적어 조용히 걸을 수 있어요. 주변에 아무것도 없어 밤에는 무서울 수 있어요.','E15동 앞에서 야경까지 같이 볼 수 있어요.']},
+  {n:'대학본부 뒤 산책길', b:['E8','E13'], c:'walk', w:'건설환경관 방향',
+   t:['평지 위주라 수업 사이에 가볍게 걷기 좋아요. 양옆으로 나무가 이어져요.']},
+  {n:'야경 보기 좋은 곳', b:[], c:'walk', w:'대학로 50 일대 · 검단리 산21-26',
+   t:['충주 시내가 한눈에 보여 밤에 예쁘다는 제보예요.','검단리 산21-26 쪽은 가파른 오르막을 올라야 하고, 올라가면 공기가 맑아요.'],
+   f:'u', fn:'정확한 지점은 제보에 없어요.'},
+  {n:'요도천변 산책로', b:[], c:'walk', w:'검단리 73-14 · 120-2 일대',
+   t:['검단리 73-14 입구에서 하검단교까지 약 1km. 가로등이 거의 없어 밤에 어두우니 둘 이상 가세요. 맑은 밤엔 별이 잘 보여요.','검단리 120-2 쪽은 적당히 어둡고 별이 잘 보이는 코스예요. 너무 멀리 가면 가로등이 없어요.','CU 한국교통대학사점에서 탄금교 직전까지 약 3km 코스도 제보됐어요.']},
+  {n:'벚꽃길', b:['E13','E14'], c:'walk', w:'건설환경관 앞 · 인문사회관 오르는 길 · 하방마을',
+   t:['건설환경관 앞은 저녁에 불이 켜지면 예쁘다는 평이에요. 인문사회관 오르막은 힘들지만 만개하면 사진 찍기 좋아요.','교통대·건국대 글로컬캠퍼스 벚꽃길은 시민에게도 알려진 명소라는 2026-04 기사가 있어요. 2026년 충주 벚꽃 절정은 4월 6~8일이었어요.','시내 쪽은 하방마을 벚꽃길(봉방동, 500m 이상). 하방마을회관은 하방1길 61.']},
+
+  /* ---- 운동 ---- */
+  {n:'대운동장', b:['W19'], c:'move', w:'대운동장 관람석·트랙',
+   t:['인조잔디 운동장에 농구코트, 족구코트, 육상트랙이 있어요. 가을 축제(국원대동제)도 여기서 열려요.','저녁 18시 이후에는 조명이 켜져 수업이 끝나고 어두워져도 운동할 수 있어요. 스탠드는 공강에 앉아 쉬는 곳으로도 써요.'],
+   f:'u', fn:'트랙이 300m가 안 된다는 제보가 있어요. 장거리 러닝은 아래 강변 코스가 낫다고 해요.'},
+  {n:'국원피트니스클럽', b:['E6'], c:'move', w:'학생회관 1층',
+   t:['교내 헬스장. 운동기구, 탈의실, 샤워실이 있어요. 월~금 09:00~21:00.']},
+  {n:'생활관 체력단련실', b:['E3'], c:'move', w:'국원생활관 (입주생)',
+   t:['덤벨, 렛풀다운, 벤치, 실내 자전거, 러닝머신 2대. 1층 공용공간에 전자레인지와 싱크대도 있어요.']},
+  {n:'창동리 강변 러닝코스', b:[], c:'move', w:'중앙탑면 창동리',
+   t:['한쪽은 하천, 한쪽은 차가 적은 도로. 강을 따라 왕복하면 3km가 조금 안 돼요. 학교에서 달려서 왕복하면 6.5km쯤이에요.','저녁에 달리기 좋아요. 뛰는 구간에는 차가 들어오지 못하는 구조라는 제보예요.'],
+   f:'u', fn:'주소가 창동리 43-6, 74-3으로 제보마다 달라요.'},
+  {n:'충주종합운동장 보조경기장', b:[], c:'move', w:'대림로 85',
+   t:['한 바퀴 400m, 6레인. 저녁 6~10시에 러닝하는 사람이 꽤 있어요.']},
+  {n:'호암지 호수공원', b:[], c:'move', w:'호암동',
+   t:['산책하기 지겹지 않은 호수공원. 러닝 코스로 나쁘지 않아요.'],
+   f:'c', fn:'한 바퀴 거리가 약 4km, 두 바퀴 6km 등 제보마다 달라요.'},
+
+  /* ---- 일 처리 ---- */
+  {n:'종합강의관 1층', b:['W5'], c:'errand', w:'프린트 · 은행 · 우체국 · 증명서',
+   t:['프린트, NH농협 출장소, 우체국(택배), 증명서 발급, 안경점이 모여 있어요. 앞에 CU와 야외 테이블도 있어요.','가장 오른쪽 무인 프린터는 신용카드가 돼요(흑백만). 프린트 카드는 1층 복사실에서 발급하고, 컬러 인쇄도 사장님께 부탁할 수 있어요.','농협 출장소는 평일 09:00~16:00로 일찍 닫아요. 외국인 유학생은 외국인등록증, 여권, 표준입학허가서를 가져가면 계좌를 만들 수 있어요.']},
+  {n:'프린트 할 수 있는 곳', b:['W5','E5','E14'], c:'errand', w:'캠퍼스 3곳 + 대학가',
+   t:['종합강의관 1층, 테크노관 2층, 인문사회관 1층(블루포트, 프린트 카드 필요).','정문 앞 CU에서는 USB나 메일로 가져간 파일을 유료로 뽑을 수 있어요.']},
+  {n:'ATM', b:['W4'], c:'errand', w:'대학원 건물 앞',
+   t:['신한, 국민 ATM은 여기 있어요. 농협은 종합강의관과 대학로에도 있어요.']},
+  {n:'학생상담센터', b:['E18'], c:'errand', w:'국제청년협력센터 3층 309호',
+   t:['상담과 심리검사가 무료예요. 방문, 전화, 이메일(utcounsel@ut.ac.kr)로 신청하고, 접수면접 뒤 주 1회 50분 상담해요.','월~금 09:00~18:00.']},
+  {n:'학생회관 IDF', b:['E6'], c:'errand', w:'학생회관',
+   t:['3D 프린트와 여러 작업을 무료로 할 수 있다는 제보예요.'], f:'u', fn:'이용 조건은 확인하지 못했어요.'},
+  {n:'교내 시설 문의처', b:['E8','E14','E18'], c:'errand', w:'학교 이용 가능 시설 목록 기준',
+   t:['대학본부 3층 전시공간: 총무과 043-841-5589.','인문사회관 소극장: 학사관리과 043-841-5619.','SPACE K VR체험관·1인 스튜디오: LINC 3.0 사업단 043-849-1780. 코딩아카데미센터: 산학연공유·협업센터 043-849-1788.','대학 라운지: 브랜드전략실 043-841-5105.'],
+   f:'u', fn:'위치와 이용 방법은 확인하지 못한 곳이 많아요.'},
+
+  /* ---- 캠퍼스 밖 ---- */
+  {n:'수주팔봉 출렁다리', b:[], c:'out', w:'살미면 토계리 · 학교와 같은 대소원면 팔봉마을에서 이어짐',
+   t:['달천 물돌이와 칼바위폭포가 한눈에 보여요. 팔봉마을 캠핑장에서 출렁다리까지 1.4km, 걸어서 약 20분. 하절기 09:00~18:00.','팔봉마을 앞 강변은 지정된 곳에서만 캠핑·차박이 돼요.']},
+  {n:'탄금호 무지개길 · 탄금대교', b:[], c:'out', w:'중앙탑면 루암리 · 금가면 유송리',
+   t:['무지개길은 싸운 커플이 같이 가면 화해하는 곳이라는 제보예요.','학교와 시내를 차로 오갈 때 탄금대교를 지나며 야경을 볼 수 있어요.']},
+  {n:'낚시 스팟', b:[], c:'out', w:'칠금동 523',
+   t:['민물고기가 생각보다 잘 잡히고 물가라 시원해요. 낚시대는 직접 챙겨야 해요. 냄새가 나는 것이 단점이에요.'],
+   f:'u', fn:'2026-04에 확인한 제보예요.'},
+  {n:'호수가 보이는 전망대 · 드라이브', b:[], c:'out', w:'동량면 지등로 1391 · 중앙탑길 251 ~ 미라실로 689-1',
+   t:['동량면 전망대는 2026-05, 중앙탑길에서 캠핑808 쪽 드라이브 코스는 2026-03에 제보됐어요.'],
+   f:'u', fn:'설명이 짧아 분위기는 확인하지 못했어요.'},
+  {n:'파스쿠찌 충주칠금점', b:[], c:'out', w:'칠금동 842',
+   t:['좌석이 넓고 밤 12시까지 열어 공부하기 좋다는 제보예요.']},
+  {n:'앤쏘온 (LP카페)', b:[], c:'out', w:'수안보면 안보복거리길 70',
+   t:['LP카페. 2026-02에 제보됐어요.'], f:'u', fn:'학교에서 거리가 멀어요.'}
+];
+
+const FAC = [
+  ['편의점 (캠퍼스)', 'CU 한국교통대생활관점(종합강의관 W5) · CU 국립한국교통대도서관(중앙도서관 W20) · GS25 교통대생활관점(대원생활관 E16)'],
+  ['편의점 (대학가)', 'GS25 충주대점 · CU 충주교통대1호점(국원대교 근처) · GS25 교통대센터점(대학가 중앙) · CU 한국교통대점 · CU 충주교통대대로점 · CU 한국교통대학사점(자취방 근처) · 세븐일레븐 충주교통대카페점(국원생활관 앞) · 세븐일레븐 충주교통대후문점(예성생활관 뒤) · 이마트24 충주교통대점(명보약국 옆)'],
+  ['프린트 (대학가)', 'GS25 교통대센터점 · CU 충주교통대1호점 · 대학촌1길 12-12 1층'],
+  ['세탁방', '워시팡팡 셀프빨래방 충주교통대점 · 런드리라운지 교통대점 · 백조 세탁소(친절하다는 평) · 셀프빨래방(대학촌1길 12-12, 12-13)'],
+  ['택배·우체국', '종합강의관(W5) 안 우체국에서 보내요. 당일 택배는 충주터미널 택배 노선을 쓰는 방법도 있어요.'],
+  ['원룸 고를 때', '대부분 연세 계약이에요. 에브리타임과 블루밍 앱에 교통대 원룸 정보가 있어요. 정문과 후문은 환경 차이가 커요. 블루밍으로 훑어본 뒤 전화하는 것이 가장 빨라요.']
+];
+
+/* ---- 맛집·카페: [이름, 위치, 지도, 추천수, 가격정보, 최저가, 최저가 메뉴, 메모] ----
+   지도: p+ID 네이버 장소, s+코드 naver.me, k+ID 카카오, 빈 문자열은 이름 검색 */
+const FOOD_RAW = [
+["부리또인 충주교통대점","충북 충주시 대소원면 대학로 13","p1419890035",11,"부리또 단품 4,000원~, 오리지널 믹스 단품 4,800원(2026-07 리뷰)",4000,"부리또 단품"],
+["핵밥 교통대점","충북 충주시 대소원면 대학로 6","p1765058761",6,"치킨마요덮밥 9,900원(정식 12,900원), 고기듬뿍덮밥 10,900원, 돈코츠라멘 10,500원, 마제소바 10,900원, 연어덮밥 15,900원, 한우대창덮밥 정식 16,900원",9900,"치킨마요덮밥(단품)"],
+["리밍교통대점","충북 충주시 대소원면 대학로 12 2층 203호","x0UQ1Bi2",5,"짜장면 6,000원, 육짬뽕·해물짬뽕 10,000원",6000,"짜장면"],
+["권짬뽕","충북 충주시 대소원면 대학촌1길 3 1층","Gyph3mXG",4],
+["생각나는감자탕","충북 충주시 대소원면 대학로 11","p21755270",4,"뼈해장국 9,500원",9500,"뼈해장국"],
+["일미닭갈비 교통대점","충청북도 충주시 대소원면 대학로 6","xPURzzQt",3,"닭갈비 2인분 19,000원, 닭갈비 삼겹살 2인분 20,000원, 볶음밥 2,000원",2000,"볶음밥"],
+["일번지순대국","충북 충주시 연수상가2길 9 일번지","p19888528",3,"순대국밥 9,000원 (대 11,000원)",9000,"순대국밥"],
+["관현각 본점","충북 충주시 중원대로 3824","p1354535546",2],
+["국대부대찌개 교통대점","충북 충주시 대소원면 대학로 19-3 1층","xaThdHk4",2,"부대전골 1인 11,000원 / 2인 22,000원, 부대찌개 2인분 20,000원, 등심부대전골 2인분 26,000원",11000,"부대전골 1인"],
+["뉴욕버거 충주교통대점","충북 충주시 대소원면 대학촌1길 8 1층","p1360232479",2],
+["도란도락도시락 본점","충북 충주시 대소원면 대학로 10-6 도란도락도시락","FE32chm2",2,"가츠동 5,700원, 규동 7,500원",5700,"가츠동"],
+["두꺼비네 (해장국)","충북 충주시 대소원면 대학로 19 1층","",2,"순대국·뼈해장국·수육국밥 9,000원, 순대전골(중)·감자탕(중) 25,000원",9000,"순대국"],
+["드랍바이","충북 충주시 대소원면 용두제방길 4 1층","FBMXKtQH",2],
+["마라야 교통대점","충북 충주시 대소원면 용두제방길 4 1층","FeNgUQsI",2],
+["메밀마당 충주 중앙탑본점","충북 충주시 중앙탑면 중앙탑길 103 메밀마당","p11817590",2,"메밀 새싹 물막국수·비빔막국수 9,000원, 순메밀 후라이드치킨 반 마리 10,000원 / 한 마리 19,000원",9000,"메밀 새싹 막국수"],
+["밀크티인","충북 충주시 대소원면 대학로 10","5B00vJjM",2],
+["배가네국수","충북 충주시 대소원면 대학로 8","FaOjexru",2],
+["샌치","충북 충주시 대소원면 대학로 19-10 1층","G8hLweAu",2],
+["쇼쿠스시","충북 충주시 호암토성4길 3 노브랜드 3층","Gjy3MuJv",2,"회전초밥 1접시 1,990원, 세트 14,000~22,000원, 사시미 한상 65,000~110,000원",1990,"회전초밥 1접시"],
+["슬기로운대학생활","충북 충주시 대소원면 대학로 25","50JBNrJR",2,"",0,"","술집 목록에도 올라 있어요."],
+["옛날순대","충북 충주시 대소원면 중원대로 4104","GBFzFynw",2,"순대국밥·돼지머리국밥·불고기뚝배기 7,000원부터 (다른 제보: 순대국밥 1만원으로 인상)",7000,"순대국밥","가격이 오른 곳"],
+["오뚜기분식","충북 충주시 자유시장길 31 1층","FKGITrds",2,"쫄면+김밥+떡볶이 합쳐 16,000원 정도"],
+["우동키노야 충주호암점","충북 충주시 호암수청2로 10 1층 115호","FSvS2TUh",2,"우동 9,000~16,900원, 돈카츠 12,900원",9000,"키노야 카케우동"],
+["윤박사한식삼겹살","충북 충주시 대소원면 대학로 12","GoiX8fhE",2,"제육덮밥 9,000원, 부대찌개 1인분 9,000원",9000,"제육덮밥"],
+["제갈덮밥&곱창마니 한국교통대점","충북 충주시 대소원면 대학로 25 102호","FwGHArSe",2],
+["큰집아저씨 충주 본점","충북 충주시 대소원면 중원대로 4102 큰집아저씨 본점","FIfGM87n",2,"육개장·육개장칼국수 11,000원(특 13,000원), 육회비빔밥 12,000원",11000,"육개장"],
+["투파인드피터 충주연수점","충북 충주시 연수동산로2길 3 2층 201호","p1045481775",2,"파스타 11,000~18,000원대",11000,"파스타 (가격대 하한)"],
+["한솥도시락 충주교통대점","충북 충주시 대소원면 대학로 21 1호","F758CQyD",2,"닭강정(소) 4,100원",4100,"닭강정(소)"],
+["친구분식 (대학로 친구분식)","충북 충주시 대소원면 대학로 23 1층","k15670775",2],
+["카페샵오팔","충북 충주시 청운로 58-1 4층~6층","p1200943881",2],
+["대학본부 학생식당 (THE HUE)","대학본부(E8) 복지관 1층","p20973405",2,"1층 학생식당 가장 비싼 메뉴 5,000원. 식사 10:00~14:00, 라면 09:00~15:00, 방학 중 휴점",0,"","국원생활관에는 식당이 없어 국원 학생들이 밥 먹으러 와요. 메뉴는 매일 학교 홈페이지 식단표에서 확인하세요. 점심엔 학생이 많이 와요."],
+["대학본부 교직원식당 (3층 뷔페)","대학본부(E8) 3층","55PRULTi",2,"반찬 4가지 뷔페식 4,500원 (다른 제보: 5,500원)",4500,"뷔페식 1식","가격이 제보마다 달라요(4,500~5,500원)."],
+["24시전주명가콩나물국밥","충북 충주시 계명대로 24","x3j434F6",1],
+["NIR (니르)","충북 충주시 대소원면 대학로 8","",1],
+["가마치통닭 교통대점","충북 충주시 대소원면 대학로 19","G1wfNjq4",1,"두 마리 통닭 22,000원, 순살치킨 12,000원",12000,"순살치킨"],
+["교통대대패삼겹살 교통대본점","","",1],
+["굿나잇커피앤북","충북 충주시 행정5길 25 1층","p1057582602",1],
+["꼬보","충북 충주시 대가미13길 28 1층 COVO","p1027293990",1],
+["낮과밤","충북 충주시 지현천변1길 55-2 낮과밤","p1353118575",1,"매콤크림플레이트 18,900원 (2인 적당)",18900,"매콤크림플레이트"],
+["달주","충북 충주시 대소원면 대학로 19-3","FSw0F3WZ",1,"","",0,"술집 목록에도 올라 있어요."],
+["돈까스카페","충북 충주시 대소원면 모단길 27-10","p2081450576",1],
+["듀레베이커리","충청북도 충주시 중원대로 3250 1층","",1],
+["뚝딱김치찌개삼겹살","충북 충주시 금제9길 38","FtTxTVFr",1,"가격대 10,000~30,000원 (김치찌개, 삼겹살)",10000,"가격대 하한 (메뉴 미기재)"],
+["막국수파는집-한국교통대점","충청북도 충주시 대소원면 대학로 28","F2LbN0j5",1,"막국수 보쌈 도시락 13,900원",13900,"막국수 보쌈 도시락"],
+["막부","충북 충주시 봉현로 296 1층","F4LDKwiH",1],
+["만선식당","충북 충주시 대소원면 중원대로 4020","Gn0yibTq",1,"메뉴 대부분 9,000원 안팎"],
+["메가MGC커피 충주교통대점","충북 충주시 대소원면 대학로 24-1 1층","xeAdmwal",1,"아이스 아메리카노 2,000원, 메가리카노 3,300원",2000,"아이스 아메리카노"],
+["몽돌집","충북 충주시 우륵로 22 몽돌집","FPnG0prc",1],
+["미미분식","충청북도 충주시 대소원면 대학로 19","xAf7hzHy",1,"떡볶이 3,000원대, 라면·튀김류 4,000~6,000원대",3000,"떡볶이 (3,000원대 표기)"],
+["밍거스 바베큐","충북 충주시 사천개로 40 이노스퀘어빌딩 2층","FV7YuLNq",1,"타코 13,000원, 1인 바베큐 16,000~23,000원, 플레이트 41,000~43,000원",13000,"타코"],
+["보스찜닭","충북 충주시 대소원면 대학로 21 보스찜닭","",1],
+["봉구스밥버거 교통대점","충북 충주시 대소원면 대학로 18","p32874983",1,"기본 봉구스밥버거 3,500원, 고기·치즈 메뉴 4,000~7,000원대",3500,"기본 봉구스밥버거"],
+["봉방돈까스","충북 충주시 봉방3길 34-1","p1869525189",1,"메뉴 13,000원 (평균)"],
+["부대담","충북 충주시 대소원면 대학로 23 1층","FqZCWSfC",1],
+["빨간사과","충북 충주시 대소원면 황토골3길 26-17","p17522809",1],
+["사천마라탕교통대점","충북 충주시 대소원면 대학로 18 102호","p1229501354",1],
+["새마을 삼겹살","충북 충주시 대소원면 대학로 12","p1973130023",1],
+["서리꽃","충북 충주시 성서2길 20 1층 103호","p1250616851",1],
+["성대분식","충북 충주시 대소원면 요도천변길 220-7","FfsYd6yg",1,"삼겹살비빔밥 8,900원",8900,"삼겹살비빔밥"],
+["성마루 국밥","충북 충주시 대소원면 성종두담길 315","x8tNhL9d",1,"가격대 9,000~15,000원 (우렁제육쌈밥)",9000,"가격대 하한 (메뉴 미기재)"],
+["소소, 단월","충청북도 충주시 충열5길 12 1층 소소, 단월","x2cKXYyf",1],
+["속초실비집","충북 충주시 갱고개로 59","GI3eyvrS",1,"소주 3,000원"],
+["수리또 대소원점","충북 충주시 대소원면 대학로 9","GahRhZGP",1,"부리또 6,300~8,500원 (김치소고기 7,200원, 믹스 6,500원, 새우 8,500원), 세트 추가 3,000원",6300,"부리또 (가격대 하한)"],
+["스매쉬크루","충북 충주시 용정2길 40","GO6z8s6l",1,"버거 5,500~9,000원, 사이드 3,000~7,500원",3000,"사이드 (가격대 하한)"],
+["신신마라탕 교통대점","충북 충주시 대소원면 대학로 13 1층","",1,"마라탕 100g 1,900원(7,000원 이상 주문), 마라샹궈 100g 2,800원, 꿔바로우 소 7,000원",1900,"마라탕 100g"],
+["신전떡볶이 충주교통대점","충북 충주시 대소원면 대학로 21 2호","p37656960",1,"떡볶이 4,000원, 치즈떡볶이 6,000원, 튀김 1,700원",1700,"튀김"],
+["심향","충북 충주시 관아1길 17","p37081756",1],
+["쌍둥이칼국수","충북 충주시 대소원면 중원대로 4020 쌍둥이칼국수","x4GWHg1f",1,"칼국수 6,000원",6000,"칼국수"],
+["아흐레커피","충북 충주시 대흥길 42","p1952540278",1],
+["엄정분식","충북 충주시 충인6길 37-1","FtTdJwWL",1],
+["예반72","충북 충주시 관아5길 6 예반72","p1019680026",1],
+["오복쌈밥","충북 충주시 사직로 191-3","p17503896",1,"제육, 우렁이쌈밥 각 1만원대",10000,"제육·우렁이쌈밥"],
+["옹심촌 감자옹심이 전문점","충북 충주시 주덕읍 신덕로 1383 1층 3~5호","FSSDyWTi",1],
+["원조중원탑막국수","충청북도 충주시 중원대로 3018","",1],
+["이삭토스트 충주한국교통대점","충북 충주시 대소원면 대학로 28","xk1MZMRQ",1,"토스트 3,600원 (3,300원에서 인상, 리뷰)",3600,"토스트"],
+["이씨식당 충주점","충북 충주시 능바우길 15","xa5R7ek6",1],
+["이정동묵밥","충북 충주시 쇠저울1길 13-2","p1058887404",1,"묵밥 12,000원대 (평균)"],
+["제주돼지촌","충북 충주시 대소원면 산정독정길 220","p1620939304",1],
+["중원육면 충주점","충북 충주시 호암토성5길 24 1층","F2ngxUY2",1],
+["짬뽕생각","충북 충주시 대소원면 대학로 20 1층 101호","",1],
+["째즈와산조","충북 충주시 지곡6길 39","p36655170",1],
+["차이나김쉐프","충북 충주시 대소원면 첨단쉼터2길 15","GOPKXRso",1],
+["촌집돌판삼겹살","충북 충주시 대소원면 중원대로 4102 1층 촌집","GwpjkcRo",1],
+["카츠집","충북 충주시 연수서편2길 11 상가동 117호","p1875506164",1,"11,000원 (평균)"],
+["카페 슬로우 모닝즈 충주본점","충북 충주시 봉계13길 30 1층","p1208664909",1,"소금빵 2,000원대",2000,"소금빵 (2,000원대 표기)"],
+["커피단월","충북 충주시 충원대로 55","xAFCN08a",1],
+["컴포즈커피","충북 충주시 대소원면 대학로 27","xpjcky0B",1],
+["큰집막창 봉방점","","GxkgL5fN",1,"","",0,"주소가 제보에 없어요."],
+["타베","충북 충주시 대소원면 대학로 5","",1,"","",0,"지도 링크가 부리또인과 같아 가게 위치를 확인해야 해요."],
+["탄금반점","충북 충주시 탄금대로 296","5uIRcpew",1],
+["태권치킨교통대점","충북 충주시 대소원면 대학로 12 태권치킨","xZKpX5Pd",1,"나혼자세트2번(순살 후라이드 300g+떡볶이+치즈볼+음료) 17,000원",17000,"나혼자세트2번"],
+["파리바게뜨 서충주농협점","충북 충주시 대소원면 중원대로 3930 (만정리 182-6)","GUmUHvu2",1],
+["평정","충북 충주시 성서1길 14-1 빨간문","p1196620055",1,"푸딩(6종) 5,500원대 (평균)"],
+["대학본부별관 구내식당 (E8-1)","대학로 50 한국교통대학교 대학본부별관 1층","xTsMpYvQ",1,"","",0,"밥·찌개류는 일찍 가야 해요. 늦으면 품절이고 돈까스는 여유 있어요. 천원의 아침밥 달에는 PAYCO 앱으로 식권을 사면 편해요."],
+["화곡구이","충북 충주시 주덕읍 화개2길 3 나동 109호","xI1tuVUb",1],
+["후라토식당 충주점","충북 충주시 호암토성2로 3 선우프라자 2층 201호","GDafwATF",1],
+["베이커리 이와정","충청북도 충주시 연수동산로7길 2","GOPwoQea",2,"소금빵 2,800원, 버터/소금 크루아상 3,800원, 퀸아망 4,500원, 깜빠뉴 5,500~6,000원, 올리브 포카치아 5,800원, 베이글 3,300~3,800원",2800,"소금빵"],
+["빽다방 충주교통대점","충청북도 충주시 대소원면 대학로 19-3","Fc6WbV6p",1],
+["커피상점 교동","충청북도 충주시 교현동 교동3길 9-2","Gip5jjDj",1],
+["이디야커피 충주교통대점","충북 충주시 대소원면 대학로 11","",1,"아메리카노(라지 520ml) 3,200원",3200,"아메리카노(라지)","정문에서 약 350m. 평일 08:30~23:00, 주말 09:00~23:00(라스트오더 22:30). 콘센트 좌석이 있어요."],
+["블루포트 한국교통대학교점","충북 충주시 대소원면 대학로 50 인문사회관 1층","",1,"","",0,"평일 09:00~17:30. 영업 후에도 공간은 열려 있어요."],
+["카페플로르 (휴스퀘어관)","대학로 50 한국교통대학교 휴스퀘어관","",1,"","",0,"월~목 09:00~20:00, 금 09:00~18:00. 학교가 관리해서 저렴하고 좌석이 넓다는 제보예요."],
+["예성중원 생활관 식당 (W13)","대학로 50 예성중원관리동 1층","",1,"식권 4,900원 정도 (제보 표기)",4900,"식권 1식","식단을 미리 확인하고 맛있는 메뉴가 나오는 날 가면 외식보다 많이 싸요."]
+];
+
+const NIGHT = [
+  ['술집', '오후(대학로 11, 이디야 옆 계단 2층) · 쿠마쿠마교통대점(대학로 11 2층) · 한식주점 권식당(대학로 11 5층) · 슬기로운대학생활(대학로 25) · 만정 요리주점(용두제방길 4 201호) · 역전할머니맥주 충주교통대점(대학로 26) · 새마을삼겹살(대학로 12) · 달주(대학로 19-3) · 청춘주막(대학로 13 2층) · 야식포차 충주 교통대점(대학로 19 2층) · 아지트(대학로 28 2층) · 연애포차(대학로 12)'],
+  ['PC방', '오셀롯PC방 충주교통대점 · 고스트캐슬대학로점 · 테라피씨방'],
+  ['노래방', '세븐스타코인노래연습장 충주교통대점(대학로 24 1층) · 지르고코인노래연습장. 세븐스타는 카드로 넣으면 3곡, 현금은 4곡이고, 회원 가입하면 적립금을 많이 줘요. 남은 곡을 저장해 둘 수 있어요.']
+];
+
+(function(){
+'use strict';
+const TABS=['map','time','food','bus','my'];
+const $=(s,r)=>(r||document).querySelector(s);
+const $$=(s,r)=>Array.from((r||document).querySelectorAll(s));
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const LS={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const fmt=n=>Number(n).toLocaleString('ko-KR');
+const DAYS=['월','화','수','목','금','토','일'];
+
+/* ---------------- 탭 ---------------- */
+function show(t,fromHash){
+  if(TABS.indexOf(t)<0)t='map';
+  document.body.dataset.tab=t;
+  TABS.forEach(x=>{
+    $('#tab-'+x).hidden=(x!==t);
+    $('#nav-'+x).setAttribute('aria-current',x===t?'page':'false');
+  });
+  LS.set('tab',t);
+  if(!fromHash){try{history.replaceState(null,'','#'+t)}catch(e){}}
+  window.scrollTo(0,0);
+}
+$$('nav.tabs button').forEach(b=>b.addEventListener('click',()=>show(b.dataset.tab)));
+window.addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(TABS.indexOf(h)>=0)show(h,true)});
+
+/* ---------------- 시계 ---------------- */
+function kst(){
+  const p=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Seoul',weekday:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());
+  const g=t=>(p.find(x=>x.type===t)||{}).value;
+  const wd={Mon:0,Tue:1,Wed:2,Thu:3,Fri:4,Sat:5,Sun:6}[g('weekday')];
+  return {d:wd==null?0:wd,m:(parseInt(g('hour'),10)%24)*60+parseInt(g('minute'),10)};
+}
+const hm=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+const tm=s=>{const a=s.split(':');return parseInt(a[0],10)*60+parseInt(a[1],10)};
+
+/* ---------------- 화면 모드 (자동 / 라이트 / 다크) ---------------- */
+const TH_KEY='ut.theme';
+function syncTh(v){$$('#thmenu button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.th===v)))}
+function applyTheme(v){
+  const r=document.documentElement;
+  if(v==='light'||v==='dark')r.setAttribute('data-theme',v);else r.removeAttribute('data-theme');
+  syncTh(v||'auto');
+}
+(function(){
+  const saved=LS.get(TH_KEY);
+  if(saved==='light'||saved==='dark')applyTheme(saved);else syncTh('auto');
+  const btn=$('#thbtn'),menu=$('#thmenu');
+  btn.addEventListener('click',e=>{e.stopPropagation();const open=menu.hidden;menu.hidden=!open;btn.setAttribute('aria-expanded',String(open))});
+  menu.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;LS.set(TH_KEY,b.dataset.th);applyTheme(b.dataset.th);menu.hidden=true;btn.setAttribute('aria-expanded','false')});
+  document.addEventListener('click',e=>{if(!menu.hidden&&!menu.contains(e.target)){menu.hidden=true;btn.setAttribute('aria-expanded','false')}});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!menu.hidden){menu.hidden=true;btn.setAttribute('aria-expanded','false');btn.focus()}});
+})();
+
+/* ---------------- 학교 지도 ---------------- */
+let mCat='all',mCode=null,mQ='',mZoom=1;
+const bOf=c=>BLD.find(b=>b.c===c);
+function codesHtml(){
+  $('#codes').innerHTML=BLD.map(b=>`<button class="code" type="button" data-code="${b.c}" aria-pressed="${mCode===b.c}"><b>${b.c}</b><span>${esc(b.n)}</span></button>`).join('');
+}
+function buildMarkers(){
+  const mp=$('#mapin');
+  mp.insertAdjacentHTML('beforeend',BLD.map(b=>{
+    const cx=(b.l+7+3.3*b.c.length)/MAP_W*100,cy=(b.t+12)/MAP_H*100;
+    return `<button class="mk" type="button" data-code="${b.c}" aria-pressed="false" aria-label="${b.c} ${esc(b.n)}" style="left:${cx.toFixed(2)}%;top:${cy.toFixed(2)}%">${b.c}</button>`;
+  }).join(''));
+}
+function syncMarkers(){
+  $$('.mk').forEach(m=>m.setAttribute('aria-pressed',String(m.dataset.code===mCode)));
+  $('#mapin').classList.toggle('dim',!!mCode);
+  const b=mCode&&bOf(mCode);
+  $('#mapnote').textContent=b?b.c+' '+b.n:'번호를 눌러 보세요';
+}
+function bselHtml(){
+  const el=$('#bsel');
+  if(!mCode){el.hidden=true;el.innerHTML='';return}
+  const b=bOf(mCode),n=PLACES.filter(p=>p.b.indexOf(mCode)>=0).length;
+  el.hidden=false;
+  el.innerHTML=`<span class="badge">${b.c}</span><div><h3>${esc(b.n)}</h3><p class="note">${n?'제보된 장소 '+n+'곳':'이 건물에 대한 제보는 아직 없어요'}</p></div><button class="btn" type="button" id="bclear">해제</button>`;
+}
+function scrollToMarker(){
+  const mk=mCode&&$('.mk[data-code="'+mCode+'"]');
+  if(!mk)return;
+  const box=$('#mapbox');
+  box.scrollTo({left:mk.offsetLeft-box.clientWidth/2,top:mk.offsetTop-box.clientHeight/2,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+}
+function setCode(c){
+  mCode=(mCode===c)?null:c;
+  codesHtml();syncMarkers();bselHtml();placesHtml();scrollToMarker();
+}
+function catsHtml(){
+  const all=[['all','전체']].concat(CATS);
+  $('#catbar').innerHTML=all.map(c=>`<button class="chip" type="button" data-cat="${c[0]}" aria-pressed="${mCat===c[0]}">${c[1]}</button>`).join('');
+}
+function placesHtml(){
+  const q=mQ.trim().toLowerCase();
+  const list=PLACES.filter(p=>(mCat==='all'||p.c===mCat)&&(!mCode||p.b.indexOf(mCode)>=0)&&(!q||(p.n+' '+p.w+' '+p.t.join(' ')+' '+(p.fn||'')).toLowerCase().indexOf(q)>=0));
+  $('#mcount').textContent=list.length+'곳'+(mCode?' · '+mCode+' '+bOf(mCode).n:'');
+  const box=$('#places');
+  box.className='grp';
+  if(!list.length){box.innerHTML='<p class="empty">'+(mCode?'이 조건에 맞는 제보가 아직 없어요. 분류나 검색어를 풀어 보세요.':'조건에 맞는 장소가 없어요. 분류나 검색어를 풀어 보세요.')+'</p>';return}
+  box.innerHTML=list.map(p=>{
+    const tiles=p.b.length?p.b.map(c=>`<span class="tile">${c}</span>`).join(''):'<span class="tile none">—</span>';
+    const flag=p.f==='c'?'<span class="flag">상충</span>':p.f==='u'?'<span class="flag u">미확인</span>':'';
+    const fn=p.fn?`<p class="fn${p.f==='u'?' u':''}">${esc(p.fn)}</p>`:'';
+    return `<article class="pl"><div class="stamp">${tiles}</div><div><h3>${esc(p.n)}${flag}</h3><p class="where">${esc(p.w||'')}</p><ul>${p.t.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>${fn}</div></article>`;
+  }).join('');
+}
+$('#codes').addEventListener('click',e=>{const b=e.target.closest('.code');if(b)setCode(b.dataset.code)});
+$('#mapin').addEventListener('click',e=>{const b=e.target.closest('.mk');if(b)setCode(b.dataset.code)});
+$('#bsel').addEventListener('click',e=>{if(e.target.closest('#bclear'))setCode(mCode)});
+$('#zoomseg').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  mZoom=parseFloat(b.dataset.z);
+  $$('#zoomseg button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+  $('#mapin').style.width=(mZoom*100)+'%';
+  if(mCode)scrollToMarker();
+});
+$('#catbar').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;mCat=b.dataset.cat;catsHtml();placesHtml()});
+$('#mq').addEventListener('input',e=>{mQ=e.target.value;placesHtml()});
+$('#fac').innerHTML=FAC.map(f=>`<div><dt>${esc(f[0])}</dt><dd>${esc(f[1])}</dd></div>`).join('');
+buildMarkers();codesHtml();catsHtml();placesHtml();syncMarkers();
+
+/* ---------------- 시간표: 지금 열린 곳 ---------------- */
+const WK=[0,1,2,3,4],ALLD=[0,1,2,3,4,5,6];
+const HOURS=[
+ {n:'중앙도서관 3층 열람실',w:'W20',r:[[null,'06:00','24:00']],hr:'매일 06:00~24:00 (안내 페이지에는 05:00 시작). 시험기간과 전 1주는 24시간',f:'c'},
+ {n:'CU 도서관점',w:'W20 3층',r:[[ALLD,'00:00','24:00']],hr:'24시간 무인'},
+ {n:'캐럴실 · 그룹스터디실',w:'W20',r:[[null,'09:00','21:00']],hr:'학기 중 09:00~21:00, 방학 중 그룹스터디실은 09:00~18:00'},
+ {n:'대학본부 학생식당',w:'E8 복지관 1층',r:[[null,'10:00','14:00']],hr:'식사 10:00~14:00, 라면 09:00~15:00 · 방학 중 휴점'},
+ {n:'블루포트',w:'E14 1층',r:[[WK,'09:00','17:30']],hr:'평일 09:00~17:30 · 영업 후에도 공간은 열려 있음'},
+ {n:'카페플로르',w:'휴스퀘어관',r:[[[0,1,2,3],'09:00','20:00'],[[4],'09:00','18:00']],hr:'월~목 09:00~20:00, 금 09:00~18:00'},
+ {n:'보건실',w:'E8 1층',r:[[null,'09:00','12:00'],[null,'13:00','18:00']],hr:'09:00~18:00, 점심 12:00~13:00 휴게'},
+ {n:'학생상담센터',w:'국제청년협력센터 309호',r:[[WK,'09:00','18:00']],hr:'월~금 09:00~18:00'},
+ {n:'국원피트니스클럽',w:'E6 1층',r:[[WK,'09:00','21:00']],hr:'월~금 09:00~21:00'},
+ {n:'NH농협은행 출장소',w:'W5 1층',r:[[WK,'09:00','16:00']],hr:'평일 09:00~16:00 · 일반 상점보다 일찍 닫음'},
+ {n:'이디야커피 충주교통대점',w:'대학로 11',r:[[WK,'08:30','23:00'],[[5,6],'09:00','23:00']],hr:'평일 08:30~23:00, 주말 09:00~23:00 (라스트오더 22:30)'},
+ {n:'올탑스터디카페',w:'대학로 27 3층',r:[[ALLD,'00:00','24:00']],hr:'매일 24시간'}
+];
+let tOver=null;
+function nowRef(){return tOver||kst()}
+function evalH(h,ref){
+  let open=null,next=null,anyToday=false;
+  h.r.forEach(r=>{
+    const days=r[0]||ALLD;
+    if(days.indexOf(ref.d)<0)return;
+    anyToday=true;
+    const s=tm(r[1]),e=tm(r[2]);
+    if(ref.m>=s&&ref.m<e){open=e}
+    else if(ref.m<s&&(next==null||s<next)){next=s}
+  });
+  return {open,next,anyToday};
+}
+function renderOpen(){
+  const ref=nowRef();
+  $('#cnow').textContent=hm(ref.m);
+  $('#cday').textContent=DAYS[ref.d]+'요일'+(tOver?' · 직접 설정':' · 한국 시각');
+  const rows=HOURS.map(h=>({h:h,s:evalH(h,ref)}));
+  rows.sort((a,b)=>(b.s.open!=null)-(a.s.open!=null));
+  const n=rows.filter(x=>x.s.open!=null).length;
+  $('#ocount').textContent=n+'곳 열림';
+  $('#open').innerHTML=rows.map(x=>{
+    const on=x.s.open!=null;
+    let st;
+    if(on)st=(x.s.open>=1440?'24:00':hm(x.s.open))+'까지';
+    else if(x.s.next!=null)st='오늘 '+hm(x.s.next)+' 열림';
+    else st=x.s.anyToday?'오늘은 마감':'오늘은 쉼';
+    const flag=x.h.f==='c'?'<span class="flag">상충</span>':'';
+    return `<div class="orow${on?' on':''}"><span class="dot" aria-hidden="true"></span><div><b>${esc(x.h.n)}</b>${flag}<span class="w">${esc(x.h.w)}</span></div><span class="st">${on?'열림 · ':''}${esc(st)}</span><p class="hr">${esc(x.h.hr)}</p></div>`;
+  }).join('');
+}
+function syncCtl(){const r=nowRef();$('#cd').value=String(r.d);$('#ct').value=hm(r.m)}
+$('#cd').addEventListener('change',()=>{const r=nowRef();tOver={d:parseInt($('#cd').value,10),m:r.m};renderOpen()});
+$('#ct').addEventListener('change',()=>{const v=$('#ct').value;if(!v)return;const r=nowRef();tOver={d:r.d,m:tm(v)};renderOpen()});
+$('#creset').addEventListener('click',()=>{tOver=null;syncCtl();renderOpen()});
+
+/* ---------------- 개인 시간표 ---------------- */
+const TT_KEY='ut.tt.v2',TT_OLD='ut.tt.v1';
+const PAL=['#d63a3a','#c2570c','#8a7a00','#2b8a3e','#0b8a8f','#1971c2','#5f3dc4','#a61e8f'];
+const PAL_N=['빨강','주황','올리브','초록','청록','파랑','보라','자주'];
+const RH=52,DLAB=['월','화','수','목','금','토'];
+const okSlot=x=>x&&Number.isInteger(x.d)&&x.d>=0&&x.d<=5&&Number.isFinite(x.s)&&Number.isFinite(x.e)&&x.s>=0&&x.e<=1440&&x.e>x.s;
+function loadTT(){
+  try{
+    const raw=LS.get(TT_KEY);
+    if(raw){const a=JSON.parse(raw);if(Array.isArray(a))return a.filter(c=>c&&Array.isArray(c.slots)).map(c=>({id:c.id,name:String(c.name||'수업'),prof:String(c.prof||''),cr:c.cr,color:(c.color>=0&&c.color<PAL.length)?c.color:0,slots:c.slots.filter(okSlot).map(x=>({d:x.d,s:x.s,e:x.e,room:String(x.room||'')}))})).filter(c=>c.slots.length)}
+    const old=LS.get(TT_OLD);
+    if(old){const a=JSON.parse(old);if(Array.isArray(a))return a.filter(x=>x&&typeof x.d==='number'&&typeof x.s==='number'&&typeof x.l==='number').map((x,i)=>({id:x.id||Date.now()+i,name:x.name||'수업',prof:'',cr:'',color:i%PAL.length,slots:[{d:x.d,s:x.s*60,e:(x.s+x.l)*60,room:x.room||''}]})).filter(c=>c.slots.every(okSlot))}
+  }catch(e){}
+  return [];
+}
+let COURSES=loadTT();
+const saveTT=()=>LS.set(TT_KEY,JSON.stringify(COURSES));
+let editId=null,draftColor=0;
+function roomInfo(room){
+  const m=/([EeWw])\s?-?(\d{1,2})(?!\d)/.exec(room||'');
+  if(!m)return '';
+  const code=m[1].toUpperCase()+m[2];
+  const b=BLD.find(x=>x.c===code);
+  return b?b.n+(code==='E14'?' · 오르막':''):code;
+}
+const rng=()=>{let a=540,b=1080;COURSES.forEach(c=>c.slots.forEach(x=>{a=Math.min(a,Math.floor(x.s/60)*60);b=Math.max(b,Math.ceil(x.e/60)*60)}));return [a,b]};
+function renderTT(){
+  const r=rng(),a=r[0],hrs=(r[1]-a)/60;
+  const nd=COURSES.some(c=>c.slots.some(x=>x.d===5))?6:5;
+  const box=$('#tt');
+  box.style.setProperty('--nd',nd);box.style.setProperty('--rh',RH+'px');box.style.setProperty('--hrs',hrs);
+  let h='<div class="th"></div>'+DLAB.slice(0,nd).map(d=>`<div class="th">${d}</div>`).join('');
+  h+='<div class="tcol">'+Array.from({length:hrs},(_,i)=>`<span style="top:${i*RH}px">${String(a/60+i).padStart(2,'0')}</span>`).join('')+'</div>';
+  for(let d=0;d<nd;d++){
+    h+=`<div class="dcol" data-d="${d}" role="button" tabindex="-1" aria-label="${DLAB[d]}요일 빈 시간에 수업 추가">`;
+    COURSES.forEach(c=>c.slots.forEach(x=>{
+      if(x.d!==d)return;
+      const info=roomInfo(x.room),tall=(x.e-x.s)>=60;
+      h+=`<button class="blk" type="button" data-id="${c.id}" aria-label="${esc(c.name)} ${DLAB[d]} ${hm(x.s)}부터 ${hm(x.e)}까지 수정" style="top:${(x.s-a)/60*RH}px;height:${(x.e-x.s)/60*RH}px;background:${PAL[c.color]}"><b>${esc(c.name)}</b>${x.room&&tall?`<i>${esc(x.room)}</i>`:''}${info&&(x.e-x.s)>=90?`<i>${esc(info)}</i>`:''}</button>`;
+    }));
+    h+='</div>';
+  }
+  box.innerHTML=h;
+  const cr=COURSES.reduce((t,c)=>t+(parseInt(c.cr,10)||0),0);
+  $('#ttsum').textContent=COURSES.length?COURSES.length+'과목'+(cr?' · '+cr+'학점':''):'';
+  $('#tthint').hidden=false;
+  renderList();renderToday();
+}
+function slotText(x){
+  const info=roomInfo(x.room);
+  return DLAB[x.d]+' '+hm(x.s)+'–'+hm(x.e)+(x.room?' · '+esc(x.room):'')+(info&&info!==x.room?' ('+esc(info)+')':'');
+}
+function renderList(){
+  const el=$('#clist');
+  if(!COURSES.length){el.innerHTML='<p class="empty">아직 넣은 수업이 없어요. 오른쪽 위의 수업 추가를 눌러 시작해요.</p>';return}
+  el.innerHTML=COURSES.map(c=>`<button class="crow" type="button" data-id="${c.id}"><span class="dot" style="background:${PAL[c.color]}"></span><span class="ci"><b>${esc(c.name)}</b><small>${[c.prof?esc(c.prof):'',(parseInt(c.cr,10)||0)?parseInt(c.cr,10)+'학점':''].filter(Boolean).join(' · ')}</small>${c.slots.map(x=>`<small>${slotText(x)}</small>`).join('')}</span></button>`).join('');
+}
+function renderToday(){
+  const el=$('#today');
+  if(!COURSES.length){el.hidden=true;return}
+  el.hidden=false;
+  const n=kst(),list=[];
+  COURSES.forEach(c=>c.slots.forEach(x=>{if(x.d===n.d)list.push({c:c,x:x})}));
+  list.sort((p,q)=>p.x.s-q.x.s);
+  const head=`<span class="k">오늘 ${DAYS[n.d]}요일</span>`;
+  if(!list.length){el.innerHTML=head+'<b>오늘은 수업이 없어요</b>';return}
+  const cur=list.find(o=>o.x.s<=n.m&&n.m<o.x.e),nxt=list.find(o=>o.x.s>n.m);
+  const fmtO=o=>`${esc(o.c.name)} · ${hm(o.x.s)}–${hm(o.x.e)}${o.x.room?' · '+esc(o.x.room):''}`;
+  let t;
+  if(cur)t=`<b>수업 중</b><span>${fmtO(cur)}</span>`+(nxt?`<span class="nx">다음 ${fmtO(nxt)}</span>`:'');
+  else if(nxt)t=`<b>다음 수업 ${hm(nxt.x.s)}</b><span>${fmtO(nxt)}</span>`+(roomInfo(nxt.x.room)?`<span class="nx">${esc(roomInfo(nxt.x.room))}</span>`:'');
+  else t='<b>오늘 수업이 모두 끝났어요</b>';
+  el.innerHTML=head+t;
+}
+function slotRow(x){
+  const d=x?x.d:0,s=x?x.s:540,e=x?x.e:600,room=x?x.room:'';
+  return `<div class="slot"><select class="field s-d" aria-label="요일">${DLAB.map((n,i)=>`<option value="${i}"${i===d?' selected':''}>${n}</option>`).join('')}</select><input class="field s-s" type="time" step="300" value="${hm(s)}" aria-label="시작"><input class="field s-e" type="time" step="300" value="${hm(e)}" aria-label="끝"><button class="btn rm" type="button" aria-label="이 시간 삭제">삭제</button><input class="field s-r" type="text" maxlength="20" placeholder="강의실 (예: E14 301)" value="${esc(room)}" aria-label="강의실" autocomplete="off"></div>`;
+}
+function colorsHtml(){
+  $('#tt-colors').innerHTML=PAL.map((c,i)=>`<button type="button" class="sw" data-c="${i}" aria-label="${PAL_N[i]}" aria-pressed="${i===draftColor}" style="background:${c}"></button>`).join('');
+}
+function openForm(c,pre){
+  editId=c?c.id:null;
+  draftColor=c?c.color:(COURSES.length%PAL.length);
+  $('#sheet-title').textContent=c?'수업 수정':'수업 추가';
+  $('#tt-name').value=c?c.name:'';
+  $('#tt-prof').value=c?c.prof:'';
+  $('#tt-cr').value=c&&c.cr!==''&&c.cr!=null?c.cr:'';
+  $('#tt-slots').innerHTML=(c?c.slots:[pre||null]).map(slotRow).join('');
+  colorsHtml();
+  $('#tt-del').hidden=!c;
+  $('#tt-msg').textContent='';
+  $('#sheet').hidden=false;
+  document.body.classList.add('lock');
+  if(!c)setTimeout(()=>$('#tt-name').focus(),30);
+}
+function closeForm(){$('#sheet').hidden=true;document.body.classList.remove('lock');editId=null}
+$('#ttadd').addEventListener('click',()=>openForm(null));
+$('#tt').addEventListener('click',e=>{
+  const b=e.target.closest('.blk');
+  if(b){const c=COURSES.find(x=>String(x.id)===b.dataset.id);if(c)openForm(c);return}
+  const col=e.target.closest('.dcol');
+  if(col){
+    const r=col.getBoundingClientRect(),a=rng()[0];
+    const mins=a+Math.floor((e.clientY-r.top)/RH)*60;
+    openForm(null,{d:parseInt(col.dataset.d,10),s:mins,e:mins+60,room:''});
+  }
+});
+$('#clist').addEventListener('click',e=>{const b=e.target.closest('.crow');if(!b)return;const c=COURSES.find(x=>String(x.id)===b.dataset.id);if(c)openForm(c)});
+$('#tt-colors').addEventListener('click',e=>{const b=e.target.closest('.sw');if(!b)return;draftColor=parseInt(b.dataset.c,10);colorsHtml()});
+$('#tt-addslot').addEventListener('click',()=>{
+  const rows=$$('#tt-slots .slot'),last=rows[rows.length-1];
+  const d=last?parseInt($('.s-d',last).value,10):0;
+  $('#tt-slots').insertAdjacentHTML('beforeend',slotRow({d:d,s:540,e:600,room:last?$('.s-r',last).value:''}));
+});
+$('#tt-slots').addEventListener('click',e=>{
+  const b=e.target.closest('.rm');if(!b)return;
+  if($$('#tt-slots .slot').length<2){$('#tt-msg').textContent='수업 시간은 최소 한 개가 필요해요.';return}
+  b.closest('.slot').remove();
+});
+$('#ttform').addEventListener('submit',e=>{
+  e.preventDefault();
+  const msg=t=>{$('#tt-msg').textContent=t};
+  const name=$('#tt-name').value.trim();
+  if(!name){msg('과목명을 입력해 주세요.');$('#tt-name').focus();return}
+  const slots=[];
+  for(const row of $$('#tt-slots .slot')){
+    const s=$('.s-s',row).value,en=$('.s-e',row).value;
+    if(!s||!en){msg('시작과 끝 시간을 모두 넣어 주세요.');return}
+    const x={d:parseInt($('.s-d',row).value,10),s:tm(s),e:tm(en),room:$('.s-r',row).value.trim()};
+    if(x.e<=x.s){msg('끝 시간이 시작 시간보다 늦어야 해요.');return}
+    slots.push(x);
+  }
+  for(let i=0;i<slots.length;i++)for(let j=i+1;j<slots.length;j++)
+    if(slots[i].d===slots[j].d&&slots[i].s<slots[j].e&&slots[j].s<slots[i].e){msg('같은 수업 안에서 시간이 겹쳐요.');return}
+  for(const c of COURSES){
+    if(c.id===editId)continue;
+    for(const x of c.slots)for(const y of slots)
+      if(x.d===y.d&&y.s<x.e&&x.s<y.e){msg(`'${c.name}' 수업과 ${DLAB[x.d]}요일 ${hm(x.s)}–${hm(x.e)}에 겹쳐요.`);return}
+  }
+  const crv=$('#tt-cr').value.trim();
+  const rec={id:editId||Date.now(),name:name,prof:$('#tt-prof').value.trim(),cr:crv===''?'':Math.max(0,Math.min(9,parseInt(crv,10)||0)),color:draftColor,slots:slots};
+  if(editId)COURSES=COURSES.map(c=>c.id===editId?rec:c);else COURSES.push(rec);
+  saveTT();renderTT();closeForm();
+});
+$('#tt-cancel').addEventListener('click',closeForm);
+$('#scrim').addEventListener('click',closeForm);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#sheet').hidden)closeForm()});
+$('#tt-del').addEventListener('click',()=>{COURSES=COURSES.filter(c=>c.id!==editId);saveTT();renderTT();closeForm()});
+renderTT();syncCtl();renderOpen();
+setInterval(()=>{if(!tOver){renderOpen();syncCtl();renderNext()}renderToday();},30000);
+
+/* ---------------- 맛집 ---------------- */
+const KIND_RE=/커피|카페|베이커리|바게뜨|밀크티|빽다방|메가|컴포즈|이디야|블루포트|플로르|파스쿠찌|드랍바이|오팔|이와정|슬로우|아흐레|굿나잇|교동|듀레|평정/;
+const AREA_L={campus:'캠퍼스 안',front:'교통대 앞',dso:'대소원면',city:'충주 시내',x:'위치 미확인'};
+function areaOf(r){
+  const l=r.l||'';
+  if(!l||l===r.n)return 'x';
+  if(/대학로 50|대학본부|인문사회관|휴스퀘어관|예성중원관리동/.test(l))return 'campus';
+  if(/대소원면/.test(l)&&/대학로|대학촌1길|용두제방길/.test(l))return 'front';
+  if(/대소원면/.test(l))return 'dso';
+  return 'city';
+}
+function mapUrl(r){
+  const m=r.m;
+  if(/^p\d+$/.test(m))return {u:'https://map.naver.com/p/entry/place/'+m.slice(1),t:'지도 열기'};
+  if(/^k\d+$/.test(m))return {u:'https://place.map.kakao.com/'+m.slice(1),t:'지도 열기'};
+  if(m)return {u:'https://naver.me/'+m,t:'지도 열기'};
+  return {u:'https://map.naver.com/p/search/'+encodeURIComponent(r.n.replace(/\s*\(.*?\)\s*/g,' ').trim()),t:'이름으로 지도 검색'};
+}
+const FOOD=FOOD_RAW.map(a=>({n:a[0],l:a[1],m:a[2],k:a[3],p:a[4]||'',lo:a[5]||0,lm:a[6]||'',x:a[7]||''}));
+FOOD.forEach(r=>{r.area=areaOf(r);r.kind=KIND_RE.test(r.n)?'cafe':'meal'});
+let fArea='all',fKind='all',fQ='',fSort='k',fCheap=false;
+function barHtml(el,items,cur,key){
+  el.innerHTML=items.map(i=>`<button class="chip" type="button" data-${key}="${i[0]}" aria-pressed="${cur===i[0]}">${i[1]}</button>`).join('');
+}
+function foodBars(){
+  const cnt=a=>FOOD.filter(r=>a==='all'||r.area===a).length;
+  barHtml($('#areabar'),[['all','전체 '+FOOD.length],['campus','캠퍼스 안 '+cnt('campus')],['front','교통대 앞 '+cnt('front')],['dso','대소원면 '+cnt('dso')],['city','충주 시내 '+cnt('city')]],fArea,'area');
+  barHtml($('#kindbar'),[['all','식사·카페 모두'],['meal','식사'],['cafe','카페·빵']],fKind,'kind');
+}
+function picks(){
+  const top=FOOD.slice().sort((a,b)=>b.k-a.k).slice(0,6);
+  $('#picks').innerHTML=top.map(r=>`<div class="pick"><span class="n">${r.k}</span><span class="t">${esc(r.n.replace(/\s*(충주)?교통대점$/,''))}</span><span class="a">${AREA_L[r.area]}${r.lo?' · 최저 '+fmt(r.lo)+'원':''}</span></div>`).join('');
+}
+function foodList(){
+  const q=fQ.trim().toLowerCase();
+  let list=FOOD.filter(r=>(fArea==='all'||r.area===fArea)&&(fKind==='all'||r.kind===fKind)&&(!fCheap||(r.lo&&r.lo<=10000))&&(!q||(r.n+' '+r.p+' '+r.l+' '+r.x).toLowerCase().indexOf(q)>=0));
+  if(fSort==='k')list.sort((a,b)=>b.k-a.k||a.n.localeCompare(b.n,'ko'));
+  else if(fSort==='p')list.sort((a,b)=>(a.lo?a.lo:1e9)-(b.lo?b.lo:1e9)||b.k-a.k);
+  else list.sort((a,b)=>a.n.localeCompare(b.n,'ko'));
+  $('#fcount').textContent=list.length+'곳';
+  if(!list.length){$('#menu').innerHTML='<p class="empty">조건에 맞는 가게가 없어요. 지역이나 가격 조건을 풀어 보세요.</p>';return}
+  $('#menu').innerHTML=list.map(r=>{
+    const mu=mapUrl(r);
+    const price=r.lo?`<span class="price">최저 ${fmt(r.lo)}원</span>`:'<span class="price none">가격 정보 없음</span>';
+    const addr=r.l?esc(r.l.replace(/^충청북도 |^충북 /,'').replace(/^충주시 /,'')):'주소 없음';
+    return `<article class="mrow"><div class="mtop"><span class="mname">${esc(r.n)}</span><span class="dots" aria-hidden="true"></span>${price}</div>
+<div class="mmeta"><span class="k">추천 ${r.k}</span><span>${AREA_L[r.area]}</span><span>${addr}</span></div>
+${r.p?`<p class="mp">${esc(r.p)}${r.lm?` <span class="note">(최저가: ${esc(r.lm)})</span>`:''}</p>`:''}
+${r.x?`<p class="mx">${esc(r.x)}</p>`:''}
+<a class="map" href="${esc(mu.u)}" target="_blank" rel="noopener noreferrer">${mu.t}</a></article>`;
+  }).join('');
+}
+$('#areabar').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;fArea=b.dataset.area;foodBars();foodList()});
+$('#kindbar').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;fKind=b.dataset.kind;foodBars();foodList()});
+$('#fq').addEventListener('input',e=>{fQ=e.target.value;foodList()});
+$('#fsort').addEventListener('change',e=>{fSort=e.target.value;foodList()});
+$('#fprice').addEventListener('click',e=>{fCheap=!fCheap;e.currentTarget.setAttribute('aria-pressed',String(fCheap));foodList()});
+$('#night').innerHTML=NIGHT.map(f=>`<div><dt>${esc(f[0])}</dt><dd>${esc(f[1])}</dd></div>`).join('');
+foodBars();picks();foodList();
+
+/* ---------------- 교통 ---------------- */
+const T100=[['08:12','141'],['08:24','122'],['08:30','151'],['08:41','157'],['08:43','121'],['08:54','159'],['08:54','143'],['09:09','152'],['09:28','157'],['09:48','142'],['10:14','106'],['14:25','106'],['18:28','106']];
+function renderNext(){
+  const ref=kst();
+  let idx=T100.findIndex(t=>tm(t[0])>=ref.m);
+  $('#t100').innerHTML=T100.map((t,i)=>`<span${i===idx?' class="next"':''}>${t[0]}<b>${t[1]}</b></span>`).join('');
+  $('#nextnote').textContent=idx>=0?'지금 기준 다음 출발은 '+T100[idx][0]+'('+T100[idx][1]+'번)이에요.':'오늘 남은 출발이 없어요.';
+}
+renderNext();
+$('#tab-bus').addEventListener('click',e=>{
+  const b=e.target.closest('[data-go]');if(!b)return;
+  const el=document.getElementById(b.dataset.go);
+  if(el)el.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+});
+
+/* ---------------- 시작 ---------------- */
+const h0=location.hash.slice(1);
+show(TABS.indexOf(h0)>=0?h0:(TABS.indexOf(LS.get('tab'))>=0?LS.get('tab'):'map'),true);
+})();
+
+</script>
+
+</body>
+</html>
